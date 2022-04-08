@@ -1,0 +1,21 @@
+input.star {
+  display: none;
+}
+input.star+h4:before {
+  cursor: pointer;
+  font-family: 'Font Awesome 5 Free';
+  content: "\f005";
+  font-weight: 400;
+}
+
+input.star:checked+h4:before {
+  font-weight: 900;
+  color: gold;
+}
+
+label.favorite {
+  &:hover {
+    color: #337ab7 !important;
+    background-color: #fff !important;
+  }
+}

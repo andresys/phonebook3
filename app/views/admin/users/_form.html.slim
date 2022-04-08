@@ -1,0 +1,44 @@
+= form_for [:admin, @user] do |f|
+  - if @user.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.full_messages.each do |message|
+          li = message
+
+  .form-group.row
+    = f.label :email, "Email:", class: "col-sm-2 col-form-label"
+    .col-sm-10
+      = f.email_field :email, class: "form-control", placeholder: "Email"
+  
+  .form-group.row
+    = f.label :password, "Пароль:", class: "col-sm-2 col-form-label"
+    .col-sm-10
+      = f.password_field :password, class: "form-control", placeholder: "Пароль"
+    
+  /.field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
+
+  .form-group.row
+    legend.col-form-label.col-sm-2.pt-0 Права доступа:
+    .col-sm-10
+      .form-check
+        = f.radio_button :rolify, :admin, class: "form-check-input"
+        = f.label :rolify_admin, "Администратор", class: "form-check-label"
+      .form-check
+        = f.radio_button :rolify, :manager, class: "form-check-input"
+        = f.label :rolify_manager, "Менеджер", class: "form-check-label"
+      .form-check
+        = f.radio_button :rolify, :user, class: "form-check-input"
+        = f.label :rolify_user, "Пользователь", class: "form-check-label"
+
+  .form-group.row
+    = f.label :contact_id, "Контакт:", class: "col-sm-2 col-form-label"
+    .col-sm-10
+      = f.select :contact_id, Contact.all.collect {|c| [ c, c.id ] }, { include_blank: true }, class: "form-control", data: { role: "select2" }
+
+  .form-group.row
+    .col-sm-10 
+      = f.submit class: "btn btn-primary"
+      = link_to "Отмена", admin_users_path, class: "btn btn-light ml-2"

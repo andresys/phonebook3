@@ -1,0 +1,12 @@
+@filename = 'freepbx_phonebook.csv'
+@output_encoding = 'UTF-8'
+@csv_options = { :force_quotes => true, :col_sep => ';' }
+
+# First row
+# csv << [ 'cell 1', 'cell 2' ]
+
+@contacts.each do |contact|
+  (additional_params(JSON.parse(contact.json_params))['phone'] || []).select{|phone| phone['type'] =~ /(Городской|Рабочий|Сотовый|Мобильный)/i }.each do |phone|
+    csv << [ "#{contact.to_s} [#{phone['type']}]", phone['value'], 0]
+  end
+end

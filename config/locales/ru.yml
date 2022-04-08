@@ -1,0 +1,29 @@
+ru:
+  alert: Внимание
+  notice: Уведомление
+  activerecord:
+    models:
+      user: Аккаунт
+    attributes:
+      user:
+        email: Email-адрес
+        password: Пароль
+        password_confirmation: Подтверждение пароля
+        reset_password_token: Ключ смены пароля
+        unlock_token: Email-адрес
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: уже используется
+              blank: не может быть пустым
+            password:
+              too_short: слишком короткий
+              blank: не может быть пустым
+            password_confirmation:
+              confirmation: не совпадает
+            reset_password_token:
+              invalid: не вырный
+            unlock_token:
+              blank: не может быть пустым

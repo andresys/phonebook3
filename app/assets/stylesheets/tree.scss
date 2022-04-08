@@ -1,0 +1,93 @@
+#treeview {
+  ul {
+    list-style-type: none;
+    padding-left: 30px;
+    position: relative;
+
+    li {
+      position: relative;
+    }
+  }
+
+  >ul {
+    padding-left: 0;
+  }
+
+  ul.ui-sortable:empty {
+    padding: 0;
+    margin: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+  }
+
+  ul.ui-sortable:empty:before,
+  li.ui-sortable-helper:before {
+    border: none;
+  }
+
+  li>div {
+    padding: 0.75rem;
+    vertical-align: top;
+    position: relative;
+    z-index: 2;
+  }
+  li>div:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  ul:before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    border: 1px solid gray;
+    left: 19px;
+    top: 0;
+    bottom: 24px;
+  }
+
+  li:before {
+    content: "";
+    position: relative;
+    top: 23px;
+    left: -11px;
+    width: 12px;
+    height: 1px;
+    border: 1px solid gray;
+    float: left;
+  }
+
+  >ul:before, >ul>li:before {
+    border: none;
+  }
+
+  li.ui-sortable-placeholder {
+    padding: 0;
+    margin: 0;
+    display: block;
+    float: none;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  .list-group-item {
+    cursor: pointer
+  }
+
+  .treeview span.indent {
+      margin-left: 10px;
+      margin-right: 10px
+  }
+
+  .treeview span.icon {
+      width: 12px;
+      margin-right: 5px
+  }
+
+  .treeview .node-disabled {
+      color: silver;
+      cursor: not-allowed
+  }
+}

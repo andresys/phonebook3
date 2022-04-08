@@ -1,0 +1,6 @@
+YealinkIPPhoneDirectory
+  - @contacts.each do |contact|
+    DirectoryEntry
+      Name = contact.to_s
+      - (JSON.parse(contact.json_params)['phone'] || []).each do |phone|
+        Telephone = phone['value']

@@ -1,0 +1,56 @@
+<%
+contact = @contact
+vcard = VCardigan.create('3.0')
+vcard.name contact.lastname.to_s, contact.firstname.to_s, contact.middlename.to_s, charset: 'utf-8'
+vcard.fullname contact.to_s, charset: 'utf-8'
+vcard.org contact.department.self_and_ancestors.first, charset: 'utf-8'
+vcard.title contact.title.to_s, charset: 'utf-8'
+vcard.adr '', "каб. #{contact.address.room}", "#{contact.address.street}, #{contact.address.house}", contact.address.location, '', contact.address.zip, '', charset: 'utf-8', type: 'WORK', pref: true if contact.address
+contact.params.each do |p|
+  args = {}
+  case p['name']
+  when /рабочий$/i
+    args = {type: 'WORK'}
+  when /городской$/i
+    args = {type: 'COMPANY'}
+  when /сотовый$/i
+    args = {type: 'CELL'}
+  else
+    next
+  end # PREF - основной; COMPANY - организация; CELL - сотовый; 
+
+  case p['param_type']
+  when 'phone'
+    vcard.tel additional_params(phone: p)['value'], **args
+  when 'email'
+    vcard.email additional_params(email: p)['value'], **args
+  end
+end
+#vcard.photo contact.image.url(:small, timestamp: false), type: 'uri'
+#vcard.photo Base64.strict_encode64(File.open(contact.image.path(:small)).read), encoding: 'BASE64', type: 'jpeg' if contact.image.path(:small)
+
+#qrcode = RQRCode::QRCode.new(raw vcard.to_s.force_encoding("utf-8").encode("utf-8"))
+qrcode = RQRCode::QRCode.new(raw vcard.to_s)
+
+qrcode = qrcode.as_png(
+  bit_depth: 2,
+  border_modules: 4,
+  color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+  color: '#315BAA',
+  file: nil,
+  fill: 'white',
+  module_px_size: 4,
+  # resize_exactly_to: true,
+  # resize_gte_to: true,
+  # size: 420
+)
+
+#IO.binwrite("/tmp/github-qrcode.png", png.to_s)
+
+logo = ChunkyPNG::Image.from_file(File.join(Rails.root, 'public', image_path("icon2.png")))
+height = ((qrcode.dimension.height - logo.dimension.height).abs / 2 + 2).floor
+width  = ((qrcode.dimension.width  - logo.dimension.width).abs / 2 + 2).floor
+
+qrcode = qrcode.compose(logo, width, height)
+%>
+<%= raw qrcode.to_s %>

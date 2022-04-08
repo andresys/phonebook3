@@ -1,0 +1,46 @@
+ul.navbar-nav id="account"
+  - unless user_signed_in?
+    = content_tag :li, class: "nav-item" << (request.original_fullpath.to_s == new_session_path(:user) && ' active' || '') do
+      = link_to new_session_path(:user), class: "nav-link dropdown" do
+        span.fas.fa-sign-in-alt.mr-1
+        span.d-none.d-lg-inline Вход в систему
+  - else
+    - active = (active_navigation_item(context: :profile) || active_navigation_item(context: :admin)) && 'active'
+    = content_tag :li, class: ['nav-item', 'dropdown', active].join(' ') do
+      a.nav-link href="#" data-toggle="dropdown"
+        span.fas.fa-user.mr-1
+        span.d-none.d-lg-inline = current_user.contact || current_user.email
+        b.d-none.d-sm-inline.dropdown-toggle.ml-1
+
+      ul.dropdown-menu.dropdown-menu-right.position-absolute.p-0 style="min-width: 450px; z-index: 1100"
+        li
+          .p-3
+            - if current_user.contact
+              .d-flex.flex-row
+                .align-self-center = image_tag current_user.contact.image(:small) || "user.png", :class => "img-thumbnail img-responsive"
+                .pl-4.flex-fill
+                  h6 = current_user.contact
+                  small
+                    p.m-0 = current_user.contact.title
+                    p.m-0 = current_user.contact.department
+            - else
+              h6 = current_user.email
+            .dropdown-divider
+            .row.small
+              .col
+                nav.nav.flex-column.pr-5
+                  strong Мой профиль:
+                  - active_navigation_item_container(context: :profile).items.each do |item|
+                    = link_to item.name.html_safe, item.url
+              - if current_user.has_role?(:admin) || current_user.has_role?(:manager)
+                .col
+                  nav.nav.flex-column
+                    strong Управление системой:
+                    - active_navigation_item_container(context: :admin).items.each do |item|
+                      = link_to item.name.html_safe, item.url
+          .p-3 style="background-color: #DDD"
+            .row
+              .col-md-6
+                = link_to 'Изменить пароль', edit_registration_path(:user), class: "btn btn-outline-primary btn-sm"
+              .col-md-6
+                = link_to 'Выход', destroy_session_path(:user), method: 'delete', class: "btn btn-primary btn-sm float-right"

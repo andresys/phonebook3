@@ -1,0 +1,99 @@
+ul.mb-3.nav.nav-tabs
+  li.nav-item
+    a.nav-link.active href="#main" data-toggle="tab" Основная информация
+  li.nav-item
+    a.nav-link href="#contacts" data-toggle="tab" Контакты
+      
+= form_for [:admin, @contact] do |f|
+  - if @contact.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@contact.errors.count, "error")} prohibited this contact from being saved:"
+      ul
+        - @contact.errors.full_messages.each do |message|
+          li = message
+
+  .tab-content
+    #main.tab-pane.fade.show.active
+      .row
+        .col-4
+          .files
+            = f.file_field :image, class: @contact.image ? "loaded" : ""
+            = f.label :image, class: "form-control", tabindex: "0", 'data-content': "Перетащите сюда &#xa; изображение &#xa; или &#xa; кликните чтобы &#xa; выбрать его".html_safe do
+              = image_tag "user.png"
+              .preview
+                = image_tag @contact.image(:medium), alt: @contact
+            - for attribute in [:crop_x, :crop_y, :crop_w, :crop_h]
+              = f.hidden_field attribute, :id => attribute
+
+        .col-8
+          .form-group.row
+            = f.label :lastname, "Фамилия:", class: "col-sm-3 col-form-label"
+            .col-sm-9
+              = f.text_field :lastname, class: "form-control", placeholder: "Фамилия"
+
+          .form-group.row
+            = f.label :firstname, "Имя:", class: "col-sm-3 col-form-label"
+            .col-sm-9
+              = f.text_field :firstname, class: "form-control", placeholder: "Имя"
+
+          .form-group.row
+            = f.label :middlename, "Отчество:", class: "col-sm-3 col-form-label", data: {toggle: "tooltip", placement: "top"}, title: "Указывается при его наличии"
+            .col-sm-9
+              = f.text_field :middlename, class: "form-control", placeholder: "Отчество"
+
+          .form-group.row.mt-5
+            = label_tag "contact_deps_0", "Подразделение:", class: "col-sm-3 col-form-label"
+            .col-sm-9
+              #dep_select
+                - @contact.department && @contact.department.self_and_ancestors.each_with_index do |d, i|
+                  .form-group
+                    = select_tag "contact[deps][#{i}]", options_for_select(d.self_and_siblings.collect {|dep| [ dep, dep.id ] }, d.id), include_blank: true, id: "contact_deps_#{i}", class: "form-control", data: { role: "select2", tags: true, event: 'dep_event' }
+                - deps = @contact.department && @contact.department.children.any? && @contact.department.children || @contact.department && [] || Department.roots
+                - level = @contact.department && @contact.department.level || 0
+                - if deps.any?
+                  .form-group
+                    = select_tag "contact[deps][#{level+1}]", options_for_select(deps.collect {|dep| [ dep, dep.id ] }), include_blank: true, id: "contact_deps_#{level+1}", class: "form-control", data: { role: "select2", tags: true, event: 'dep_event' }
+                - else
+                  .form-group
+                    = text_field_tag "contact[deps][#{level + 1}]", nil, class: "form-control", data: { event: 'dep_event' }
+                /= f.select :department_id, Department.all.collect {|dep| [ dep, dep.id ] }, { }, class: "form-control"
+                /= f.select :department_id, nested_set_options(Department) {|i| "#{'-' * i.level} #{i.name}" }, { }, class: "form-control", 'data-role': "select2"
+
+          .form-group.row
+            = f.label :title_id, "Должность:", class: "col-sm-3 col-form-label"
+            .col-sm-9
+              = f.select :title_id, Title.all.collect {|title| [ title, title.id ] }, { }, class: "form-control", data: { role: "select2", tags: true, placeholder: "занимаемая должность" }
+
+    #contacts.tab-pane.fade
+      .form-group.row
+        = label_tag "contact[params][phone][0]", "Контактный телефон:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          - default_types = ['рабочий', 'мобильный', 'домашний']
+          = render partial: "params.html", locals: {contact: @contact, param_type: 'phone', type_name: "Тип номера", type_value: "Номер", default_types: default_types}
+
+      .form-group.row.mt-4
+        = label_tag "contact[params][email][0]", "Контактный Email:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          - default_types = ['рабочий', 'домашний']
+          = render partial: "params.html", locals: {contact: @contact, param_type: 'email', type_name: "Тип email", type_value: "Email", default_types: default_types}
+
+      .form-group.row.mt-4
+        = f.label :location, "Адрес контакта:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          .form-row.form-group
+            .col-8
+              = f.select :location, Address.all_locations, { include_blank: true }, data: {role: "select2", placeholder: "Населенный пункт", tags: true}
+            .col-4
+              = f.select :zip, Address.all_zips, { include_blank: true }, data: {role: "select2", placeholder: "Индекс", tags: true}
+          .form-row.form-group
+            .col-6
+              = f.select :street, Address.all_streets, { include_blank: true }, data: {role: "select2", placeholder: "Улица", tags: true}
+            .col-3
+              = f.select :house, Address.all_houses, { include_blank: true }, data: {role: "select2", placeholder: "Номер дома", tags: true}
+            .col-3
+              = f.select :room, Address.all_rooms, { include_blank: true }, data: {role: "select2", placeholder: "Офис", tags: true}
+
+  .form-group.row.mt-4
+    .col.text-center
+      = f.submit class: "btn btn-primary"
+      = link_to "Отмена", admin_contacts_path, class: "btn btn-light ml-2"

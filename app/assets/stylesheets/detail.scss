@@ -1,0 +1,14 @@
+[data-type=contact]:not(.detail) {
+  .detail-show {
+    display: none;
+  }
+}
+
+[data-type=contact].detail {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+
+  .detail-hide {
+    display: none !important;
+  }
+}

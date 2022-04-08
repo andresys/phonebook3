@@ -1,0 +1,9 @@
+all
+  PhoneBooks
+    - @contacts.each_with_index do |contact, index|
+      - phones = (JSON.parse(contact.json_params)['phone'] || [])
+      - office = phones.select{|p| p['type'] == 'Рабочий'}.map{|p| p['value']}.first
+      - mobile = phones.select{|p| p['type'] == 'Городской'}.map{|p| p['value']}.first
+      - outher = (phones.map{|p| p['value']} - [office, mobile]).first
+      book id=index Bookid="0" speedid="0" accountid="0" GroupName="" GroupNameTwo="" FirstName=contact.firstname Username=contact.to_s LastName=contact.lastname MobileNum=mobile OfficeNum=office OtherNum=outher NewVer="1" ISUseBLF="0"
+  PhoneGroups

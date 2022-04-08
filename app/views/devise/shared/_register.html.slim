@@ -1,0 +1,19 @@
+h2.d-none.d-lg-block Регистрация
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+  = render "devise/shared/error_messages", resource: resource if registration_path(resource_name) == request.original_fullpath.to_s
+
+  fieldset.clearfix
+    .field
+      span.fa.fa-user
+      = f.email_field :email, autofocus: true, autocomplete: "off", placeholder: "Email"
+    .field
+      span.fa.fa-lock
+      = f.password_field :password, autocomplete: "off", placeholder: "Пароль"
+    .field
+      span.fa.fa-lock
+      = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Подтверждение пароля"
+    
+    div
+      input.btn type="submit" value="Регистрация"
+  .clearfix
+.clearfix

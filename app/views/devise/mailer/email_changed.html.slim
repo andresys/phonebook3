@@ -1,0 +1,6 @@
+p Привет #{@email}!
+- if @resource.try(:unconfirmed_email?)
+  p Уведомляем Вас, что ваш адрес электронной почты будет изменен на #{@resource.unconfirmed_email}.
+- else
+  p Уведомляем Вас, что ваш адрес электронной почты был изменен на  #{@resource.email}.
+- end

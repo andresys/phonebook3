@@ -1,0 +1,105 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require select2.min
+ *= require select2-bootstrap4.min
+ *= require jquery.cropbox
+ *= require bootstrap-markdown-editor.min
+ *= require flipp-card
+ *= require flippant
+ *= require_tree .
+ * stub scaffolds
+ *= require_self
+ */
+
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+body {
+  padding-bottom: 52px;
+}
+
+h1 {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  font-weight: 300;
+  font-size: 3rem;
+}
+
+a {
+  color: #337ab7;
+}
+
+.bg-phonebook {
+  background-image: linear-gradient(#6d94bf, #446e9b 50%, #3e648d);
+  background-color: #6d94bf;
+  background-repeat: no-repeat;
+  border-color: #6d94bf;
+}
+
+.errors {
+  padding: 0;
+  list-style-position: inside;
+  margin: 0;
+}
+
+header {
+  border-bottom: 1px solid #3e648d;
+  //text-shadow: 0 -1px 0 rgba(0,0,0,0.3)
+}
+
+footer {
+  background-color: white;
+  bottom: 0;
+  z-index: 1020;
+}
+
+.card.bg-phonebook .active {
+  background-color: #E3F2FD;
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.select2-dropdown li {
+  min-height: 24px;
+  box-sizing: content-box;
+}
+
+.hide {
+  display: none !important;
+}
+
+.click {
+  cursor: pointer;
+}
+
+.markdown *[id]:before { 
+  display: block; 
+  content: " "; 
+  margin-top: -78px; 
+  height: 78px; 
+  visibility: hidden; 
+}
+
+.turbolinks-progress-bar {
+  background-color: #337ab7;
+}
+
+#search {
+  padding-top: 48px;
+  padding-bottom: 8px;
+  position: sticky;
+  background-color: white;
+  z-index: 1000;
+  top: 37px;
+}

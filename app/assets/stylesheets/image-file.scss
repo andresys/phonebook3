@@ -1,0 +1,109 @@
+.files {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+
+    input {
+        display: none;
+    }
+
+    input+label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 10px;
+        margin: 0;
+        cursor: pointer;
+        text-align: center;
+
+        &:before {
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            content: "";
+            outline: 2px dashed #a0a0a0;
+            outline-offset: -10px;
+            -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+            transition: outline-offset .15s ease-in-out, background-color .15s linear, opacity .15s linear;
+            opacity: 0.7;
+            background-color: white;
+        }
+
+        &:after {
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            content: attr(data-content);
+            white-space: pre;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        &:hover:before {
+            opacity: 0.9
+        }
+
+        img, div.preview {
+            width: 100%;
+            height: 100%;
+        }
+
+        div.preview {
+            display: none;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-origin: content-box;
+            img {
+                height: auto;
+                width: auto;
+            }
+        }
+    }
+
+    input.loaded+label {
+        &:before {
+            background-color: transparent;
+        }
+        &:hover:before {
+            background-color: white;
+            opacity: 0.9;
+        }
+        &:after, img {
+            display: none;
+        }
+        &:hover:after {
+            display: inherit;
+        }
+        div.preview {
+            display: inherit;
+            img {
+                display: inline-block;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    input.edit+label {
+        &:hover:after {
+            display: none;
+        }
+        div.preview {
+            display: inherit;
+            img {
+                height: auto;
+                width: auto;
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+#sign
+  .row
+    .col-6.text-center
+      h2 Вход
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        fieldset.clearfix
+          .field
+            span.fa.fa-user
+            = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email"
+          .field
+            span.fa.fa-lock
+            = f.password_field :password, autocomplete: "password", placeholder: "Пароль"
+          .field.form-check.text-left.mb-3
+            = f.check_box :remember_me, class: "form-check-input"
+            = f.label :remember_me, "Запомнить меня этом компьютере", class: "form-check-label"
+          
+          div
+            span style="width:48%; text-align:left;  display: inline-block;"
+              a.small-text href="#" Забыли пароль?
+            span style="width:50%; text-align:right;  display: inline-block;"
+              input.btn type="submit" value="Войти"
+        .clearfix
+      .clearfix
+
+    .col-6.text-center
+      h2 Регистрация
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        fieldset.clearfix
+          .field
+            span.fa.fa-user
+            = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email"
+          .field
+            span.fa.fa-lock
+            = f.password_field :password, autocomplete: "password", placeholder: "Пароль"
+          .field
+            span.fa.fa-lock
+            = f.password_field :password_confirmation, autocomplete: "password", placeholder: "Подтверждение пароля"
+          
+          div
+            span style="width:50%; text-align:right;  display: inline-block;"
+              input.btn type="submit" value="Регистрация"
+        .clearfix
+      .clearfix

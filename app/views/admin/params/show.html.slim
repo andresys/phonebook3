@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @param.name
+p
+  strong Value:
+  = @param.value
+
+=> link_to 'Edit', edit_param_path(@param)
+'|
+=< link_to 'Back', params_path

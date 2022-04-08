@@ -1,0 +1,24 @@
+.flippCard {
+  position: fixed;
+  margin: 0;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  padding: 1em;
+  box-sizing: border-box;
+
+  z-index: 10000;
+}
+
+.flippant-back {
+  transform: perspective(500px) rotateY(-90deg);
+  -moz-transform: perspective(500px) rotateY(-90deg);
+  -webkit-transform: perspective(500px) rotateY(-90deg);
+
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}

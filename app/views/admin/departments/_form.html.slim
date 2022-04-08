@@ -1,0 +1,64 @@
+ul.mb-3.nav.nav-tabs
+  li.nav-item
+    a.nav-link.active href="#main" data-toggle="tab" Основная информация
+  li.nav-item
+    a.nav-link href="#contacts" data-toggle="tab" Контакты
+    
+= form_for [:admin, @department] do |f|
+  - if @department.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@department.errors.count, "error")} prohibited this department from being saved:"
+      ul
+        - @department.errors.full_messages.each do |message|
+          li = message
+
+  .tab-content
+    #main.tab-pane.fade.show.active
+      .form-group.row
+        = f.label :name, "Наименование:", class: "col-sm-4 col-form-label"
+        .col-sm-8
+          = f.text_field :name, class: "form-control", placeholder: "Наименование подразделения"
+
+      .form-group.row
+        = f.label :parent_id, "Родительское подразделение:", class: "col-sm-4 col-form-label"
+        .col-sm-8
+          = f.select :parent_id, nested_set_options(Department) {|i| "#{'-' * i.level} #{i.name}" }, { include_blank: true }, class: "form-control"
+
+      .form-group.row
+        = f.label :chief_id, "Руководитель подразделения:", class: "col-sm-4 col-form-label"
+        .col-sm-8
+          = f.select :chief_id, Contact.all.collect {|contact| [ contact, contact.id ] }, { include_blank: true }, data: {role: "select2", placeholder: "Руководитель"}
+
+    #contacts.tab-pane.fade
+      .form-group.row.mt-5
+        = label_tag "contact[params][phone][0]", "Контактный телефон:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          - default_types = ['рабочий', 'мобильный', 'домашний']
+          = render partial: "params.html", locals: {contact: @department, param_type: 'phone', type_name: "Тип номера", type_value: "Номер", default_types: default_types}
+
+      .form-group.row.mt-4
+        = label_tag "contact[params][email][0]", "Контактный Email:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          - default_types = ['рабочий', 'домашний']
+          = render partial: "params.html", locals: {contact: @department, param_type: 'email', type_name: "Тип email", type_value: "Email", default_types: default_types}
+
+      .form-group.row.mt-4
+        = f.label :location, "Адрес подразделения:", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          .form-row.form-group
+            .col-8
+              = f.select :location, Address.all_locations, { include_blank: true }, data: {role: "select2", placeholder: "Населенный пункт", tags: true}
+            .col-4
+              = f.select :zip, Address.all_zips, { include_blank: true }, data: {role: "select2", placeholder: "Индекс", tags: true}
+          .form-row.form-group
+            .col-6
+              = f.select :street, Address.all_streets, { include_blank: true }, data: {role: "select2", placeholder: "Улица", tags: true}
+            .col-3
+              = f.select :house, Address.all_houses, { include_blank: true }, data: {role: "select2", placeholder: "Номер дома", tags: true}
+            .col-3
+              = f.select :room, Address.all_rooms, { include_blank: true }, data: {role: "select2", placeholder: "Офис", tags: true}
+
+  .form-group.row.mt-4
+    .col.text-center
+      = f.submit class: "btn btn-primary"
+      = link_to "Отмена", admin_departments_path, class: "btn btn-light ml-2"

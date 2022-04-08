@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title = !Phonebook.config.title.blank? && Phonebook.config.title || "Телефонный справочник [версия 3.0]"
+    meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag
+  body
+    ui-view
+      div[ng-non-bindable]
+        = yield

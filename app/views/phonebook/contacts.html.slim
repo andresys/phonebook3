@@ -1,0 +1,60 @@
+#search
+  = form_tag contacts_path, class: "d-flex flex-row", method: "get", enforce_utf8: false, remote: true, "data-type": "json" do
+    .flex-fill = text_field_tag :q, params[:q], class: "form-control form-control-lg", placeholder: "Быстрый поиск контактов", autocomplete: "off"
+    - if user_signed_in?
+      .btn-group-toggle.ml-3 data-toggle="buttons"
+        - label_class = ["label btn btn-lg btn-outline-primary favorite", @favorite && "active" || nil].compact.join(' ')
+        = label_tag :favorite, class: label_class
+          = hidden_field_tag :favorite, :off, id: nil
+          = check_box_tag :favorite, :on, @favorite, autocomplete: "off", id: nil
+          span.far.fa-star
+            span.d-none.d-sm-inline  Избранное
+      
+
+#contact_card.mt-4.d-none
+  .p-3.shadow-sm.bg-white.rounded.d-flex.flex-fill.flex-row.align-self-stretch
+    .d-flex.flex-column.flex-fill
+      .d-flex.flex-column.flex-sm-row
+        .align-self-top.text-center.mr-0.mr-sm-4
+          img.img-thumbnail.rounded name="photo" src="/images/medium_user.png"
+          nav.nav.justify-content-center
+            a.nav-link target="_blank" name="vcard"
+              i.fas.fa-address-card
+            a.nav-link target="_blank" name="qrcode"
+              i.fas.fa-qrcode
+        .p-2.flex-fill.text-center.text-sm-left
+          h3 name="name"
+          span
+            p name="title"
+            .mt-3
+              nav aria-label="breadcrumb"
+                ol.breadcrumb.bg-light.justify-content-center.justify-content-sm-start name="department"
+            /p.m-0.mt-3
+              span 
+                ' Руководитель:
+              span Исаев Антон Владимирович
+          .mt-4.row.text-muted
+            .d-flex.flex-column.col.align-items-stretch.m-2 name="phone"
+              h6.m-0.pb-2 style="border-bottom: 1px solid #dee2e6"
+                span.fa.fa-phone 
+                span.ml-3 Телефон для связи:
+              div.flex-fill.py-2
+            .d-flex.flex-column.col.align-items-stretch.m-2 name="email"
+              h6.m-0.pb-2 style="border-bottom: 1px solid #dee2e6"
+                span.fa.fa-at
+                span.ml-3 Электронная почта:
+              div.flex-fill.py-2
+
+/#Phonebook.mt-4.row.p-2 data-react-props="{"contacts": #{@contacts_json}}"
+#phonebook.mt-4.row.p-2
+  - current_department = nil
+  - @contacts.each_with_index do |contact, i|
+    - unless contact.department == current_department
+      = render partial: "department_card.html", locals: {department: contact.department}
+      - current_department = contact.department
+    = render partial: "contact_card.html", locals: {contact: contact}
+
+.modal.fade role="dialog" id="imgmodal"
+ .modal-dialog style="width: max-content"
+    .modal-content
+      img.img-responsive.w-100 src="" id="show-img"

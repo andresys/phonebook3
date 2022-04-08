@@ -1,0 +1,17 @@
+= form_for [:admin, @title] do |f|
+  - if @title.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@title.errors.count, "error")} prohibited this title from being saved:"
+      ul
+        - @title.errors.full_messages.each do |message|
+          li = message
+
+  .form-group.row
+    = f.label :name, "Наименование:", class: "col-sm-2 col-form-label"
+    .col-sm-10
+      = f.text_field :name, class: "form-control", placeholder: "Наименование должности"
+  
+  .form-group.row
+    .col-sm-10 
+      = f.submit class: "btn btn-primary"
+      = link_to "Отмена", admin_titles_path, class: "btn btn-light ml-2"

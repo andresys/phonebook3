@@ -1,0 +1,9 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @title.name
+
+=> link_to 'Edit', edit_admin_title_path(@title)
+'|
+=< link_to 'Back', admin_titles_path

@@ -1,0 +1,42 @@
+- card_class = ["col-lg-6 p-0 d-flex", @cids && !@cids.include?(contact.id) && "hide" || nil].compact.join(' ')
+/- subordinates = contact.subordinates.to_a.map{|s| s.to_s}
+= content_tag :div, class: card_class, data: { type: "contact", id: contact.id, name: contact.to_s } do
+  .m-2.p-3.shadow-sm.bg-white.rounded.d-flex.flex-fill.flex-row.align-self-stretch
+    - if user_signed_in?
+      .pl-0.pl-sm-5.position-relative
+        .btn-group-toggle.position-absolute data-toggle="checkbox" style="left: 0"
+          label
+            - fav = JSON.parse(contact.favorite || "[]").include?(current_user.id)
+            = check_box_tag nil, nil, fav, class: "star", autocomplete: "off", data: { url: toggle_profile_favorite_path(contact), remote: true, method: :post }
+            h4.p-2.m-0.text-muted
+    .d-flex.flex-column.flex-fill
+      .d-flex.flex-column.flex-sm-row
+        .align-self-top.text-center.pt-2
+          = image_tag contact.image(:small), class: "img-thumbnail rounded", style: "min-width: 70px"
+        - params = additional_params(JSON.parse(contact.json_params))
+        .p-2.flex-fill
+          h6.text-center.text-sm-left = contact
+          small
+            p.text-center.text-sm-left.m-0 = contact.title_name
+            p.text-center.text-sm-left.m-0 = contact.department_name
+      .d-flex.flex-row.justify-content-around.justify-content-sm-between.text-muted
+        - phones = params['phone'] || []
+        - if phones.any?
+          .mr-1
+            small.text-nowrap
+              span.fa.fa-phone
+              span.font-weight-bold.ml-1 Телефон для связи:
+            - phones.each do |param|
+              small.d-flex.justify-content-between.flex-wrap
+                span.mr-2.text-nowrap = "#{param['type']}:"
+                = link_to param['value'], param['link'], class: "text-nowrap flex-fill text-right", title: param['hint']
+        - emails = params['email'] || []
+        - if emails.any?
+          .ml-1
+            small.text-nowrap
+              span.fa.fa-at
+              span.font-weight-bold.ml-1 Электронная почта:
+            - emails.each do |param|
+              small.d-flex.justify-content-between.flex-wrap
+                span.mr-2.text-nowrap = "#{param['type']}:"
+                = link_to param['value'], param['link'], class: "text-nowrap flex-fill text-right", title: param['hint']
