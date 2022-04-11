@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   get   "index" => redirect("/")
   
   # get   "",             to: "phonebook#client",   as: "client"
-  get   "contacts",     to: "phonebook#contacts"
-  get   "help",         to: "phonebook#help",       as: "help"
-  post  "help",         to: "phonebook#preview"
-  #get   "card_template.mst", to: "phonebook#template"
+  # get   "contacts",     to: "phonebook#contacts"
+  # get   "help",         to: "phonebook#help",       as: "help"
+  # post  "help",         to: "phonebook#preview"
+  # get   "card_template.mst", to: "phonebook#template"
 
   devise_for :users, path: "", path_names: {
     sign_in: 'login', sign_out: 'logout', sign_up: '',
@@ -18,17 +18,17 @@ Rails.application.routes.draw do
     #patch "/unlock", to: "devise/unlocks#create"
   end
 
-  namespace :profile, path: "" do
-    resources :favorites, only: :toggle do
-      post :toggle, on: :member, path: ""
-    end
-    resource :sessions, only: :favorite do
-      post :favorite, on: :member
-    end
-    resource  :my_profile, path: "profile"
-    resources :my_contacts, path: "mycontacts"
-    resource  :settings
-  end
+  # namespace :profile, path: "" do
+  #   resources :favorites, only: :toggle do
+  #     post :toggle, on: :member, path: ""
+  #   end
+  #   resource :sessions, only: :favorite do
+  #     post :favorite, on: :member
+  #   end
+  #   resource  :my_profile, path: "profile"
+  #   resources :my_contacts, path: "mycontacts"
+  #   resource  :settings
+  # end
 
   namespace :admin do
     get "/", to: redirect { |p, r| "#{r.url}/users" }, as: "root"

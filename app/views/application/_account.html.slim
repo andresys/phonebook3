@@ -5,7 +5,8 @@ ul.navbar-nav id="account"
         span.fas.fa-sign-in-alt.mr-1
         span.d-none.d-lg-inline Вход в систему
   - else
-    - active = (active_navigation_item(context: :profile) || active_navigation_item(context: :admin)) && 'active'
+    /- active = (active_navigation_item(context: :profile) || active_navigation_item(context: :admin)) && 'active'
+    - active = active_navigation_item(context: :admin) && 'active'
     = content_tag :li, class: ['nav-item', 'dropdown', active].join(' ') do
       a.nav-link href="#" data-toggle="dropdown"
         span.fas.fa-user.mr-1
@@ -27,7 +28,7 @@ ul.navbar-nav id="account"
               h6 = current_user.email
             .dropdown-divider
             .row.small
-              .col
+              /.col
                 nav.nav.flex-column.pr-5
                   strong Мой профиль:
                   - active_navigation_item_container(context: :profile).items.each do |item|

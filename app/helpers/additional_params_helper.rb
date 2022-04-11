@@ -16,7 +16,7 @@ private
   def phone_additional_params(val)
     number =  val["value"] && val["value"].gsub(/[^\d+]/, '')
     number_type = val["type"] && (val["type"][0].upcase + val["type"][1..-1])
-    number = "84822#{number}" if number.length == 6
+    number = "84822#{number}" if (number.length == 6) && (number[0].to_i > 1)
 
     format_number, info_number = case number
     when /^\d{1,6}$/

@@ -53,9 +53,9 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            when the item should be highlighted, you can set a regexp which is matched
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>.
                                 
-    primary.item :contacts, "Контакты", contacts_path, class: "nav-item", link: {class: "nav-link mr-2 mr-lg-0"}, icon: "fas fa-address-book mr-1"
+    # primary.item :contacts, "Контакты", contacts_path, class: "nav-item", link: {class: "nav-link mr-2 mr-lg-0"}, icon: "fas fa-address-book mr-1"
     #primary.item :favorite, "Избранное", favorites_path, class: "nav-item", link: {class: "nav-link"}, icon: "fas fa-star mr-1" if user_signed_in?
-    primary.item :help, "Справка", help_path, class: "nav-item", link: {class: "nav-link mr-2 mr-lg-0"}, icon: "fas fa-question-circle mr-1"
+    # primary.item :help, "Справка", help_path, class: "nav-item", link: {class: "nav-link mr-2 mr-lg-0"}, icon: "fas fa-question-circle mr-1"
     #primary.item :admin, "Управление", admin_root_path, class: "nav-item", link: {class: "nav-link"}, icon: "fas fa-user-cog mr-1", highlights_on: /^#{admin_root_path}.*/ if current_user && (current_user.has_role?(:admin) || current_user.has_role?(:manager))
     
     
