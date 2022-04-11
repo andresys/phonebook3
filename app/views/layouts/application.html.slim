@@ -10,7 +10,6 @@ html
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
     = favicon_link_tag 
   = content_tag :body, class: [controller_name, action_name].join(' ')
     = render partial: "header.html"
