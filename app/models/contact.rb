@@ -88,20 +88,21 @@ class Contact < ApplicationRecord
   end
 
   def gen_index
-    departments = department && department.self_and_ancestors.map{|dep| !dep.name.blank? && dep.name.gsub(/[^а-яА-Я0-9a-zA-Z]+/, " ").split(' ')}
     indexes = "#{firstname} #{lastname} #{middlename}".gsub(/([^а-яА-Яa-zA-Z\-]+)/, " ").split(' ')
     indexes += [slug.gsub(/[^0-9a-zA-Z]/, '')]
-    indexes += [department.slug.gsub(/[^0-9a-zA-Z]/, '')]
     indexes += "#{title && title.name}".gsub(/([^а-яА-Яa-zA-Z\-]+)/, " ").split(' ').select{|val| val.length > 2}
     indexes += "#{location} #{zip} #{street}".gsub(/([^a-zA-Zа-яА-Я0-9\-\\\/]+)/, " ").split(' ')
     indexes += [house && house.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, ''), room && room.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, '')]
     indexes += params.map{|prm| {phone: prm.value.gsub(/([^+,0-9])/, ''), email: prm.value.gsub(/([^a-zA-Z0-9+\-.@])/, '')}[prm.param_type.to_sym]}
+    departments = department && department.self_and_ancestors.map{|dep| !dep.name.blank? && dep.name.gsub(/[^а-яА-Я0-9a-zA-Z]+/, " ").split(' ')}
     indexes += departments.flatten
     indexes += departments.map do |d|
       deps1 = d.select{|val| val != val.upcase}.map{|val| val[0]}.join
       deps2 = d.select{|val| val != val.upcase && val.length > 2}.map{|val| val[0]}.join
       [deps1, deps2].select{|val| val.length > 1}
     end.flatten
+    departments = department && department.self_and_ancestors.map{|dep| !dep.slug.blank? && dep.slug.gsub(/[^0-9a-zA-Z]/, '').split(' ')}
+    indexes += departments.flatten
     indexes.compact.map{|val| val.downcase}.uniq
   end
 
