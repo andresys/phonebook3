@@ -33,7 +33,7 @@ private
       "value": format_number,
       "type": number_type,
       "hint": info_number && info_number.join(', '),
-      "link": "tel://#{number}"
+      "link": "tel:#{number}"
     }
   end
 
@@ -43,7 +43,7 @@ private
 
     {
       "type": email_type,
-      "link": "mailto://#{email}"
+      "link": "mailto:#{email}"
     }
   end
 

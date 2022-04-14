@@ -66,7 +66,7 @@ class Contact < ApplicationRecord
   def self.search(query, ids = nil)
     return [ids || []] if query.blank?
     res = query.gsub(/[+(]*([0-9]+)[-+() ]*/, '\1').gsub(/([0-9a-zA-Z]+)[-]*/, '\1').gsub(/[^а-яА-Я0-9a-zA-Z+.@]+/, " ").downcase.split(' ').map do |val|
-      p val = val.gsub(/[^а-яА-Я0-9a-zA-Z+.@]+/, '')
+      # p val = val.gsub(/[^а-яА-Я0-9a-zA-Z+.@]+/, '')
       if ids.blank?
         res1 = SearchIndex.where(value: val).pluck(:contact_id)
         res2 = SearchIndex.where("value LIKE ?", "#{val}%").pluck(:contact_id) if res1.blank? || val.length <= 3
@@ -91,6 +91,7 @@ class Contact < ApplicationRecord
     departments = department && department.self_and_ancestors.map{|dep| !dep.name.blank? && dep.name.gsub(/[^а-яА-Я0-9a-zA-Z]+/, " ").split(' ')}
     indexes = "#{firstname} #{lastname} #{middlename}".gsub(/([^а-яА-Яa-zA-Z\-]+)/, " ").split(' ')
     indexes += [slug.gsub(/[^0-9a-zA-Z]/, '')]
+    indexes += [department.slug.gsub(/[^0-9a-zA-Z]/, '')]
     indexes += "#{title && title.name}".gsub(/([^а-яА-Яa-zA-Z\-]+)/, " ").split(' ').select{|val| val.length > 2}
     indexes += "#{location} #{zip} #{street}".gsub(/([^a-zA-Zа-яА-Я0-9\-\\\/]+)/, " ").split(' ')
     indexes += [house && house.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, ''), room && room.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, '')]
