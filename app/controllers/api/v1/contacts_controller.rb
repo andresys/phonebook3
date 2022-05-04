@@ -30,7 +30,7 @@ class Api::V1::ContactsController < ApplicationController
                                                 GROUP BY paramable_type, paramable_id, param_type) as params ON params.paramable_id = contacts.id AND params.paramable_type = \'Contact\'
                                     WHERE ' + where + '
                                     GROUP BY contacts.id
-                                    ORDER BY departments.lft ASC, titles.position ASC, lastname ASC, firstname ASC, middlename ASC LIMIT ' + limit + ' OFFSET ' + from)  #LIMIT 5
+                                    ORDER BY departments.lft ASC, titles.position ASC, lastname ASC, firstname ASC, middlename ASC LIMIT ' + limit + ' OFFSET ' + from)
 
     #render json: Contact.all
     #render json: @contacts.map {|c| c.attributes.merge(:img_url => c.image(:small))}
