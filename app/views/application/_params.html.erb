@@ -1,0 +1,13 @@
+<% model_params = contact.params.select{|prm| prm.param_type == param_type} %>
+<% model_name = contact.model_name.singular %>
+
+<div class="flex flex-col gap-2 w-full">
+  <% (!model_params.blank? && model_params || [{name: nil, param_type: :phone, value: nil}]).each_with_index do |param,i| %>
+    <%= hidden_field_tag "#{model_name}[params][][id]", param[:id], id: nil if param[:id] %>
+    <%= hidden_field_tag "#{model_name}[params][][type]", param_type, id: nil %>
+    <div class="flex gap-2">
+      <%= select_tag "#{model_name}[params][][name]", options_for_select(Param.send("all_#{param_type}_types", default_types), param[:name]), id: nil, include_blank: true, data: {role: "select2", placeholder: type_name, tags: true}, class: "form-input" %>
+      <%= text_field_tag "#{model_name}[params][][value]", param[:value], id: "#{model_name}_params_#{param_type}_#{i}", class: "form-input", placeholder: type_value %>
+    </div>
+  <% end %>
+</div>

@@ -13,22 +13,17 @@ threads min_threads_count, max_threads_count
 #
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
+# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
+#
+#port ENV.fetch("PORT") { 3000 }
+bind 'tcp://0.0.0.0:3000'
+
 # Specifies the `environment` that Puma will run in.
 #
-# Default to production
-rails_env = ENV['RAILS_ENV'] || "development"
-environment rails_env
-
-# Set up socket location (or port of development)
-if rails_env == "production"
-    bind "unix:///tmp/phonebook3.sock"
-else
-    port ENV.fetch("PORT", 3000)
-end
-
+environment ENV.fetch("RAILS_ENV") { "development" }
 
 # Specifies the `pidfile` that Puma will use.
-pidfile "/tmp/phonebook3.pid"
+pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together

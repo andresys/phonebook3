@@ -1,0 +1,23 @@
+<div class="sticky top-28 mb-4">
+  <%= yield(:left_menu_before) %>
+
+  <% if user_signed_in? %>
+    <div class="mt-4">
+      <h6 class="text-xl font-light py-2">Мой профиль</h6>
+      <nav class="left-menu">
+        <%= render "navigation_profile"%>
+      </nav>
+    </div>
+  <% end %>
+
+  <% if current_user && (current_user.has_role?(:admin) || current_user.has_role?(:manager)) %>
+    <div class="mt-4">
+      <h6 class="text-xl font-light py-2">Управление системой</h6>
+      <nav class="left-menu">
+        <%= render "navigation_admin" if current_user && (current_user.has_role?(:admin) || current_user.has_role?(:manager)) %>
+      </nav>
+    </div>
+  <% end %>
+  
+  <%= yield(:left_menu_after) %>
+</div>

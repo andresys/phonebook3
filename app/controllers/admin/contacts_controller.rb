@@ -4,7 +4,7 @@ class Admin::ContactsController < AdminController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    @pagy, @contacts = pagy Contact.order([:lastname, :firstname, :middlename])
   end
 
   # GET /contacts/1

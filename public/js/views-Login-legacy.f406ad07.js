@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkphonebook3_client"]=self["webpackChunkphonebook3_client"]||[]).push([[382],{5851:function(n,e,t){t.r(e),t.d(e,{default:function(){return p}});var i=t(3396),u={class:"help"},o=(0,i._)("h1",null,"Вход в систему",-1),c=[o];function l(n,e,t,o,l,r){return(0,i.wg)(),(0,i.iD)("div",u,c)}var r=t(6948),s=t(6728),a={name:"LoginView",setup:function(){(0,r.jq)({title:s.v.title("Вход в систему")})}},f=t(89);const h=(0,f.Z)(a,[["render",l]]);var p=h}}]);
-//# sourceMappingURL=views-Login-legacy.f406ad07.js.map

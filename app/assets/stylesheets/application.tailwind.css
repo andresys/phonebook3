@@ -1,0 +1,7 @@
+@import "./phonebook.scss";
+@import "./treeview.scss";
+@import "./left_menu.scss";
+@import "./account_menu.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

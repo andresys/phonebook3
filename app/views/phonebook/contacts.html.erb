@@ -1,0 +1,13 @@
+<main class="tall:pb-10 pb-0 px-4 mx-auto max-w-screen-xl w-full text-gray-700">
+  <%= render "search" %>
+
+  <div data-controller="infinite-scroll">
+    <div class="mb-8 grid grid-cols-2 gap-4" data-infinite-scroll-target="entries">
+      <%= render "contacts" %>
+    </div>
+
+    <div data-infinite-scroll-target="pagination">
+      <%== pagy_nav @pagy %>
+    </div>
+  </div>
+</main>

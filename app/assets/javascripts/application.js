@@ -30,10 +30,13 @@
 //= require ext-language_tools
 //= require bootstrap-markdown-editor
 //= require mustache.min
+//= require jstree.min
 //= require_self
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
+  $('#jstree').jstree({"plugins" : [ "checkbox" ]});
+
   $("select[data-role=select2]").each(function(i, t){
     var options = { language: "ru", theme: "bootstrap4" }
     for (var k in t.dataset) { 

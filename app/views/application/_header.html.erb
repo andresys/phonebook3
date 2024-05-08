@@ -1,0 +1,17 @@
+<header class="static tall:sticky top-0 left-0 right-0 bg-gradient-to-b from-pb-400 to-pb-700 via-pb-600 text-gray-50 z-50">
+  <div class="mx-auto max-w-screen-xl flex items-center justify-center h-20 px-4">
+    <%= render "logo" %>
+
+    <% if user_signed_in? %>
+      <nav class="hidden md:flex ml-auto space-x-4">
+        <%= render "navigation_main" %>
+      </nav>
+
+      <button class="ml-auto md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    <% end %>
+  </div>
+</header>

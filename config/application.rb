@@ -10,8 +10,8 @@ Bundler.require(*Rails.groups)
 module Phonebook3
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
-    config.version = '3.1'
+    config.load_defaults 7.1
+    config.version = '3.5'
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -25,6 +25,11 @@ module Phonebook3
       row[2] && row[2].split(',').each {|code| config.phone_codes[code.strip.to_s] = [row[0], row[1]]}
     end
 
+    config.time_zone = "Europe/Moscow"
+    config.i18n.available_locales = %i[en ru]
     config.i18n.default_locale = :ru
+
+    # config.api_only = false
+    # config.middleware.use ActionDispatch::Flash
   end
 end

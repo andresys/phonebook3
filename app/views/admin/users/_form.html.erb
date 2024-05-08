@@ -1,0 +1,41 @@
+<%= form_with model: [:admin, @user] do |f| %>
+  <div class="card p-6 bg-gray-50 w-full mb-4" data-tabs-target="tab" id="profile">
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <%= f.label :email, "Email:", class: "font-medium min-w-64" %>
+      <%= f.email_field :email, class: "form-input grow", placeholder: "user@adm.tver.ru" %>
+    </div>
+
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <%= f.label :password, "Пароль:", class: "font-medium min-w-64" %>
+      <%= f.password_field :password, class: "form-input grow" %>
+    </div>
+
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <legend class="font-medium min-w-64">Права доступа:</legend>
+      <div class="flex gap-4 grow">
+        <%= f.label :rolify_admin do %>
+          <%= f.radio_button :rolify, :admin %>
+          Администратор
+        <% end %>
+        <%= f.label :rolify_manager do %>
+          <%= f.radio_button :rolify, :manager %>
+          Менеджер
+        <% end %>
+        <%= f.label :rolify_user do %>
+          <%= f.radio_button :rolify, :user %>
+          Пользователь
+        <% end %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <%= f.label :contact_id, "Контакт:", class: "font-medium min-w-64" %>
+      <%= f.select :contact_id, Contact.all.collect {|c| [ c, c.id ] }, { include_blank: true }, class: "form-input grow", data: { role: "select2" } %>
+    </div>
+  </div>
+
+  <div class="flex gap-2 justify-center items-baseline">
+    <%= link_to "Отмена", [:admin, :users], class: "btn", role: "button" %>
+    <%= f.button "Сохранить", class: "btn-primary" %>
+  </div>
+<% end %>

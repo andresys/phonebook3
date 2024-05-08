@@ -1,0 +1,44 @@
+<span class="block m-6 text-xl text-center leading-5 font-light text-gray-400">Для входа в систему введите email-адрес и пароль от вашего аккаунта</span>
+
+<div class="card py-8 px-4 sm:px-10">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div>
+      <%= f.label :email, "Email-адрес", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "user@adm.tver.ru", class: "form-input" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+        <%= f.label :password, "Пароль", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+        <div class="mt-1 rounded-md shadow-sm">
+          <%= f.password_field :password, autocomplete: "current_password", placeholder: "не менее 6 символов", class: "form-input" %>
+        </div>
+    </div>
+
+    <div class="mt-6 flex items-center justify-between">
+        <div class="flex items-center">
+          <%= f.check_box :remember_me, class: "h-4 w-4" %>
+          <%= f.label :remember_me, "Запомни меня", class: "ml-2 block text-sm leading-5 text-gray-900" %>
+        </div>
+
+        <div class="text-sm leading-5">
+          <%= link_to "Восстановление пароля", new_password_path(resource_name), class: "link font-medium" %>
+        </div>
+    </div>
+
+    <div class="mt-6">
+      <span class="block w-full rounded-md shadow-sm">
+        <button type="submit" class="btn-primary font-medium w-full flex justify-center">
+          Войти
+        </button>
+      </span>
+    </div>
+  <% end %>
+
+  <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <p class="mt-4 text-center text-sm text-gray-900 max-w">Войди в свой аккаунт или
+      <%= link_to "создай новый", new_registration_path(resource_name), class: "link font-medium" %>
+    </p>
+  <% end %>
+</div>

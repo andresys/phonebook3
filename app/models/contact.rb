@@ -13,13 +13,12 @@ class Contact < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 
-  #has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
   has_attached_file :image,
                     styles: { medium: "250x250#", small: "60x60#" },
                     #default_url: ActionController::Base.helpers.asset_path("user.png"),
-                    default_url: "/images/:style_user.png",
+                    default_url: "/:style_user.png",
                     path: ":rails_root/public/images/contacts/:id/:style_:filename",
-                    url: "/images/contacts/:id/:style_:filename",
+                    url: "/contacts/:id/:style_:filename",
                     processors: [:cropper]
 
 
@@ -36,6 +35,10 @@ class Contact < ApplicationRecord
   has_many :params, as: :paramable
   has_one :chief_of_department, class_name: "Department", foreign_key: :chief_id
   has_and_belongs_to_many :favorites, class_name: "User"
+
+  def name
+    "#{lastname} #{firstname} #{middlename}"
+  end
 
   def cropping?
     !crop_x.blank? && !crop_y.blank? && !crop_w.blank? && !crop_h.blank?
@@ -95,14 +98,14 @@ class Contact < ApplicationRecord
     indexes += [house && house.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, ''), room && room.gsub(/([^a-zA-Zа-яА-Я0-9\\\/])/, '')]
     indexes += params.map{|prm| {phone: prm.value.gsub(/([^+,0-9])/, ''), email: prm.value.gsub(/([^a-zA-Z0-9+\-.@])/, '')}[prm.param_type.to_sym]}
     departments = department && department.self_and_ancestors.map{|dep| !dep.name.blank? && dep.name.gsub(/[^а-яА-Я0-9a-zA-Z]+/, " ").split(' ')}
-    indexes += departments.flatten
+    indexes += departments.flatten if departments
     indexes += departments.map do |d|
       deps1 = d.select{|val| val != val.upcase}.map{|val| val[0]}.join
       deps2 = d.select{|val| val != val.upcase && val.length > 2}.map{|val| val[0]}.join
       [deps1, deps2].select{|val| val.length > 1}
-    end.flatten
+    end.flatten if departments
     departments = department && department.self_and_ancestors.map{|dep| !dep.slug.blank? && dep.slug.gsub(/[^0-9a-zA-Z]/, '').split(' ')}
-    indexes += departments.flatten
+    indexes += departments.flatten if departments
     indexes.compact.map{|val| val.downcase}.uniq
   end
 

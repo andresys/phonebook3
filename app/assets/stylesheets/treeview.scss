@@ -1,0 +1,51 @@
+.treeview {
+  ul {
+    @apply relative pl-8 list-none;
+  }
+
+  li>div {
+    @apply relative align-top rounded-3xl px-4 py-3;
+  }
+
+  li>div:hover {
+    @apply bg-pb-100 z-10;
+  }
+
+  ul li {
+    @apply relative;
+  }
+
+  &>ul {
+    @apply pl-0 m-0;
+  }
+
+  li:before {
+    @apply content-[""] absolute border border-pb-200 w-[1px] top-[-0.75rem] bottom-0 left-[-0.5rem];
+  }
+
+  li:last-child:before,
+  li:has(+ li.ui-sortable-helper:last-child):before {
+    @apply content-[""] absolute border border-pb-200 w-[1px] h-[1.5rem] top-0 left-[-0.5rem];
+  }
+
+  li:after {
+    @apply content-[""] absolute border border-pb-200 w-[1rem] h-[1px] top-[1.5rem] left-[-0.5rem];
+  }
+
+  ul:last-child:before,
+  &>ul:before,
+  &>ul>li:after,
+  &>ul>li:before {
+    border: none !important;
+  }
+
+  li.place>div,
+  li.place li>div {
+    @apply bg-pb-100 z-10;
+  }
+
+  li.place>div>*,
+  li.place li>div>* {
+    @apply invisible;
+  }
+}

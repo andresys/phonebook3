@@ -6,7 +6,7 @@ namespace :phonebook do
   desc "TODO"
   task reindex: :environment do
     puts "Reindex contacts database:"
-    ActiveRecord::Base.establish_connection(:development)
+    ActiveRecord::Base.establish_connection(:production)
 
     bar = ProgressBar.new(Contact.count)
     p "Clear index data"

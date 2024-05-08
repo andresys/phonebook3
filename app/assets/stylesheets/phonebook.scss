@@ -1,0 +1,77 @@
+.turbo-progress-bar {
+  @apply bg-pb-500 h-[5px];
+}
+
+@layer components {
+  * {
+    @apply focus:outline-none;
+  }
+
+  body {
+    @apply bg-white;
+  }
+
+  input,
+  select,
+  button,
+  textarea,
+  *[role=button] {
+    @apply focus:shadow-[0_0_0_0.25rem] focus:shadow-pb-300/50 transition ease-in-out duration-500;
+  }
+
+  *[role=button] {
+    @apply link-no-decorate;
+  }
+
+  .btn {
+    @apply border border-gray-200 bg-gray-50 text-gray-800 hover:bg-gray-100 active:bg-gray-200 click rounded-md py-2 px-4 text-sm;
+  }
+
+  .btn-primary {
+    @apply border border-pb-400 bg-pb-400 text-white hover:bg-pb-500 active:bg-pb-700 click rounded-md py-2 px-4 text-sm;
+  }
+
+  .btn-sm {
+    @apply py-1 px-2;
+  }
+
+  a {
+    @apply focus:underline decoration-dashed underline-offset-2 transition ease-in-out duration-500;
+  }
+
+  .link {
+    @apply text-pb-400 hover:text-pb-500 active:text-pb-700;
+  }
+  
+  .link-no-decorate {
+    @apply hover:no-underline focus:no-underline active:no-underline !important;
+  }
+
+  .link-shadow {
+    @apply hover:shadow-md focus:shadow-md;
+  }
+
+  .link_nav {
+    @apply link-no-decorate text-gray-300 hover:text-gray-100 focus:text-white focus:drop-shadow-md;
+  }
+
+  .link-active {
+    @apply text-white drop-shadow-md;
+  }
+
+  .click {
+    @apply active:scale-[0.98];
+  }
+
+  .card {
+    @apply bg-white shadow sm:rounded-lg;
+  }
+
+  .btn-round {
+    @apply flex items-center gap-x-2 py-2 px-3 text-pb-600 border-pb-400 border rounded-3xl click;
+  }
+
+  .form-input {
+    @apply appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5;
+  }
+}

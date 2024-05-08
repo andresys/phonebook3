@@ -1,0 +1,22 @@
+<%= link_to profile_my_profile_path, class: "link#{request.path =~ /^#{profile_my_profile_path}/ ? ' active' : ''}" do %>
+  Обо мне
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end if current_user && current_user.contact %>
+
+<%= link_to profile_my_contacts_path, class: "link#{request.path =~ /^#{profile_my_contacts_path}/ ? ' active' : ''}" do %>
+  Мои контакты
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end %>
+
+<%#= link_to "Отзывы и предложения", contacts_path, class: "link" %>
+
+<%= link_to profile_settings_path, class: "link#{request.path =~ /^#{profile_settings_path}/ ? ' active' : ''}" do %>
+  Настройки
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end %>

@@ -1,0 +1,57 @@
+<span class="block m-6 text-xl text-center leading-5 font-light text-gray-400">Для изменения пароля, заполните следующую форму</span>
+
+<div class="card py-8 px-4 sm:px-10">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <%= f.hidden_field :reset_password_token %>
+
+    <% password_placeholder = @minimum_password_length ? "Пароль (минимум #{@minimum_password_length} символ(а/ов)" : "Пароль" %>
+
+    <div>
+      <%= f.label :password, "Пароль", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 rounded-md shadow-sm">
+        <%= f.password_field :password, autocomplete: "off", placeholder: password_placeholder, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+
+      <div class="mt-2 rounded-md shadow-sm">
+        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "повторите пароль", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <span class="block w-full rounded-md shadow-sm">
+        <button type="submit" class="btn-primary w-full flex justify-center">
+          Изменить пароль
+        </button>
+      </span>
+    </div>
+  <% end %>
+
+  <% if controller_name != 'sessions' %>
+    <p class="mt-4 text-center text-sm text-gray-900 max-w">Уже есть аккаунт?
+      <%= link_to "Войди в систему", new_session_path(resource_name), class: "link font-medium" %>
+    </p>
+  <% end %>
+</div>
+
+
+.text-center
+  h2 Введите новый пароль
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = render "devise/shared/error_messages", resource: resource
+    = f.hidden_field :reset_password_token
+
+    fieldset.clearfix
+      .field
+        span.fa.fa-lock
+        - password_placeholder = @minimum_password_length ? "Пароль (минимум #{@minimum_password_length} символ(а/ов)" : "Пароль"
+        = f.password_field :password, autocomplete: "off", placeholder: password_placeholder
+      .field
+        span.fa.fa-lock
+        = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Подтверждение пароля"
+      
+      div
+        input.btn type="submit" value="Изменить пароль"
+    .clearfix
+  .clearfix
+
+  = render "devise/shared/links", resource: resource

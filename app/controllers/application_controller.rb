@@ -1,11 +1,9 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+  
+  protect_from_forgery prepend: true
+  #protect_from_forgery with: :null_session
+  #protect_from_forgery unless: -> { request.format.json? }
+  
   layout proc { false if request.xhr? }
-
-  def client
-    render html: "", layout: "client"
-  end
-
-  def not_found
-    raise ActionController::RoutingError.new('Not Found')
-  end
 end

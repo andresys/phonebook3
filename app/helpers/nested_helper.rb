@@ -1,72 +1,64 @@
 module NestedHelper
-  def nested_li(objects, &block)
-    objects = objects.order(:lft) if objects.is_a? Class
+  @@list_type = :ul
+  @@list_css_class = nil
+  @@item_css_class = nil
 
-    return '' if objects.size == 0
+  def nested_list(data, options = {}, &block)
+    data = data.order(:lft) if data.is_a? Class
 
-    output = '<ul><li>'
+    return '' if data.size == 0
+
+    @@list_type = options.delete(:type) || @@list_type
+    @@list_css_class = options.delete(:list_class)
+    @@item_css_class = options.delete(:item_class)
+
+    output = [list_container(options)]
     path = [nil]
 
-    objects.each_with_index do |o, i|
-      if o.parent_id != path.last
-        # We are on a new level, did we descend or ascend?
-        if path.include?(o.parent_id)
-          # Remove the wrong trailing path elements
-          while path.last != o.parent_id
+    data.each_with_index do |item, i|
+      unless item.parent_id == path.last
+        if path.include?(item.parent_id)
+          output << list_container(close: true)
+          while path.last != item.parent_id
             path.pop
-            output << '</li></ul>'
+            output << list_item(close: true)
+            output << list_container(close: true)
           end
-          output << '</li><li>'
         else
-          path << o.parent_id
-          output << '<ul><li>'
+          path << item.parent_id
         end
-      elsif i != 0
-        output << '</li><li>'
+      else
+        output << list_container(close: true) unless i == 0
+        output << list_item(close: true) unless i == 0
       end
-      output << capture(o, path.size - 1, &block)
-      output << '<ul></ul>' unless objects[i+1] && (objects[i+1].parent_id == o.id)
+      output << list_item(id: item.id)
+      output << capture(item, path.size - 1, &block)
+      output << list_container
     end
+    output << list_container(close: true)
 
-    output << '</li></ul>' * path.length
-    output.html_safe
-  end
-
-  def sorted_nested_li(objects, order, &block)
-    nested_li sort_list(objects, order), &block
+    path.length.times do
+      output << list_item(close: true)
+      output << list_container(close: true)
+    end
+    output.map(&:to_s).join.html_safe
   end
 
   private
 
-  def sort_list(objects, order)
-    objects = objects.order(:lft) if objects.is_a? Class
-
-    # Partition the results
-    children_of = {}
-    objects.each do |o|
-      children_of[ o.parent_id ] ||= []
-      children_of[ o.parent_id ] << o
-    end
-
-    # Sort each sub-list individually
-    children_of.each_value do |children|
-      children.sort_by! &order
-    end
-
-    # Re-join them into a single list
-    results = []
-    recombine_lists(results, children_of, nil)
-
-    results
+  def list_container(options = {})
+    close = options.delete(:close) || false
+    options = html_attrs({class: @@list_css_class}.merge(options))
+    close ? "</#{@@list_type.to_s}>" : "<#{@@list_type.to_s} #{options}>"
   end
 
-  def recombine_lists(results, children_of, parent_id)
-    if children_of[parent_id]
-      children_of[parent_id].each do |o|
-        results << o
-        recombine_lists(results, children_of, o.id)
-      end
-    end
+  def list_item options = {}
+    close = options.delete(:close) || false
+    options = html_attrs({class: @@item_css_class}.merge(options))
+    close ? "</li>" : "<li #{options}>"
   end
 
+  def html_attrs options
+    options.filter { |k,v| !v.blank? }.map { |k,v| "#{k}=\"#{v}\"" }.join(' ')
+  end
 end

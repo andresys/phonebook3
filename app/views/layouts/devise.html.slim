@@ -1,9 +1,0 @@
-- content_for :flash do
-  = render partial: "flash.html"
-  
-- content_for :side do
-  #sign.my-3
-    = yield(:flash)
-    = yield
-
-= render template: "layouts/application"

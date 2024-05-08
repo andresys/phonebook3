@@ -1,0 +1,13 @@
+<%= form_with model: [:admin, @title] do |f| %>
+  <div class="card p-6 bg-gray-50 w-full mb-4" data-tabs-target="tab" id="profile">
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <%= f.label :name, "Наименование:", class: "font-medium min-w-64" %>
+      <%= f.text_field :name, class: "form-input grow", placeholder: "Наименование должности" %>
+    </div>
+  </div>
+
+  <div class="flex gap-2 justify-center items-baseline">
+    <%= link_to "Отмена", [:admin, :titles], class: "btn", role: "button" %>
+    <%= f.button "Сохранить", class: "btn-primary" %>
+  </div>
+<% end %>
