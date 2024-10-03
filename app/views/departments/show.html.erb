@@ -1,0 +1,10 @@
+<%= render "search", url: search_path %>
+
+<%= turbo_frame_tag "entries",
+  class: "mb-8 grid grid-cols-2 gap-4",
+  data: { controller: "entries", entries_src_value: "/search.turbo_stream" } do
+%>
+  <%= render "contacts" %>
+  
+  <%= tag.div data: { controller: "lazy-loader", lazy_loader_url_value: pagy_next_url(@pagy) } %>
+<% end %>

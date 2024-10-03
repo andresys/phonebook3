@@ -23,7 +23,7 @@ module FormatHelper
 
     return format_number if options.delete(:value)
     number_title = info_number && "#{number_type} (#{info_number.join(', ')})" || number_type
-    make_tag format_number, "callto://#{number}", title: number_title || "", type: number_type
+    make_tag format_number, "tel:#{number}", title: number_title || "", type: number_type
   end
 
   def email_format_type(object, options = {})
@@ -31,7 +31,7 @@ module FormatHelper
     email_type = object.name[0].upcase + object.name[1..-1] if object.respond_to?(:name)
 
     return email if options.delete(:value)
-    make_tag email, "mailto://#{email}", title: email_type  || "", type: email_type
+    make_tag email, "mailto:#{email}", title: email_type  || "", type: email_type
   end
 
 private
@@ -60,9 +60,9 @@ private
   end
 
   def make_tag(*args, &block)
-    content_tag :small, class: "d-flex justify-content-between flex-wrap" do
-      concat content_tag :span, "#{args[2].delete(:type)}.:", class: "mr-2 text-nowrap" if args[2][:type]
-      args[2][:class] = (args[2][:class] ? args[2][:class] + ' ' : '') + "text-nowrap flex-fill text-right"
+    tag.dd class: "flex flex-wrap justify-between mt-1" do
+      concat tag.span "#{args[2].delete(:type)}:", class: "mr-2 text-nowrap" if args[2][:type]
+      args[2][:class] = (args[2][:class] ? args[2][:class] + ' ' : '') + "text-nowrap ml-auto text-pb-600"
       concat link_to *args, &block
       #concat link_to "", args[block ?0:1], class: "ml-2 far fa-clipboard invisible", 'data-clipboard-text': block && block.call || args[0], title: "Копировать в буфер обмена"
       #concat link_to "", nil, class: "far fa-question-circle ml-2"

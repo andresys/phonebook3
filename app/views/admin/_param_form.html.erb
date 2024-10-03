@@ -1,0 +1,9 @@
+<% placeholder_type ||= '' %>
+<% placeholder_value ||= '' %>
+<div class="nested-form-wrapper flex gap-2" data-new-record="<%= f.object.new_record? %>">
+  <%= f.select :name, options_for_select(Param.all_phone_types, f.object.name), { include_blank: true }, placeholder: placeholder_type, class: "form-input", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+  <%= f.text_field :value, class: "form-input", placeholder: placeholder_value %>
+  <%= f.hidden_field :param_type %>
+  <%= f.hidden_field :_destroy %>
+  <button type="button" class="btn" data-action="nested-form#remove">Удалить</button>
+</div>

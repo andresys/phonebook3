@@ -1,0 +1,16 @@
+<div class="flex-1">
+  <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+    <%= f.label :name, "Наименование:", class: "font-medium min-w-64" %>
+    <%= f.text_field :name, class: "form-input grow", placeholder: "Наименование подразделения" %>
+  </div>
+
+  <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+    <%= f.label :parent_id, "Родительское подразделения:", class: "font-medium min-w-64" %>
+    <%= f.select :parent_id, nested_set_options(Department) {|i| "#{'-' * i.level} #{i.name}" }, { include_blank: true }, class: "form-input grow" %>
+  </div>
+
+  <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-8 items-baseline">
+    <%= f.label :chief_id, "Руководитель:", class: "font-medium min-w-64" %>
+    <%= f.select :chief_id, Contact.all.collect {|contact| [ contact, contact.id ] }, { include_blank: true }, class: "form-input grow", data: { controller: "tom-select" } %>
+  </div>
+</div>

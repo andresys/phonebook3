@@ -1,0 +1,19 @@
+<% provide :page_title, "Экспорт контактов" %>
+<%= turbo_stream_from :exports %>
+
+<%= form_with scope: :export, method: :delete do |f| %>
+  <%= page_title "Экспорт контактов" do %>
+    <div class="flex gap-2 w-full">
+      <%= link_to [:new, :export], class: "btn-primary flex flex-nowrap items-center gap-2 w-full justify-center" do %>
+        <%= bs_icon 'file-arrow-down' %>
+        Создать
+      <% end %>
+      <%= f.button "Удалить", value: "_destroy", class: "btn" %>
+    </div>
+  <% end %>
+
+
+  <ul id="exports" class="treeview mb-4">
+    <%= render @exports %>
+  </ul>
+<% end %>

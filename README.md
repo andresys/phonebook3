@@ -1,24 +1,14 @@
-# README
+# Телефонный справочник
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Web-приложение для быстрого поиска контактной информации в организыции
 
-Things you may want to cover:
+Основные возможности:
+- быстрый поиск по ФИО, должности, наименованию организации и/или контактной информации
+- поиск по сокращенниям
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Основной стэк средств разработки:
+- ruby on rails
+- адаптивная верстка
+- tailwind css
+- stimulus
+- turbo js

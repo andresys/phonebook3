@@ -1,0 +1,13 @@
+.account-menu {
+  a {
+    @apply block text-sm;
+  }
+    
+  svg {
+    @apply hidden;
+  }
+
+  a.active {
+    @apply underline text-pb-700;
+  }
+}

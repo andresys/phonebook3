@@ -1,0 +1,37 @@
+<span class="block m-6 text-xl text-center leading-5 font-light text-gray-400">Для создания аккаунта, заполните следующие поля формы</span>
+
+<div class="card py-8 px-4 sm:px-10">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <div>
+      <%= f.label :email, "Email-адрес", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <%= f.email_field :email, autofocus: true, autocomplete: "off", placeholder: "user@adm.tver.ru", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <%= f.label :password, "Пароль", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 rounded-md shadow-sm">
+        <%= f.password_field :password, autocomplete: "off", placeholder: "не менее 6 символов", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+
+      <div class="mt-2 rounded-md shadow-sm">
+        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "повторите пароль", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <span class="block w-full rounded-md shadow-sm">
+        <button type="submit" class="btn-primary w-full flex justify-center">
+          Регистрация
+        </button>
+      </span>
+    </div>
+  <% end %>
+
+  <% if controller_name != 'sessions' %>
+    <p class="mt-4 text-center text-sm text-gray-900 max-w">Уже есть аккаунт?
+      <%= link_to "Войди в систему", new_session_path(resource_name), class: "link font-medium" %>
+    </p>
+  <% end %>
+</div>

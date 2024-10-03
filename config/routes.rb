@@ -1,59 +1,54 @@
-Rails.application.routes.draw do
-  root  "application#client"
-  get   "index" => redirect("/")
-  
-  # get   "",             to: "phonebook#client",   as: "client"
-  # get   "contacts",     to: "phonebook#contacts"
-  # get   "help",         to: "phonebook#help",       as: "help"
-  # post  "help",         to: "phonebook#preview"
-  # get   "card_template.mst", to: "phonebook#template"
-
-  devise_for :users, path: "", path_names: {
-    sign_in: 'login', sign_out: 'logout', sign_up: '',
-    password: 'password', confirmation: 'verification',
-    registration: 'register', edit: 'edit/profile',
-    unlock: 'unlock'
-  } do
-    #get "/unlock", to: "devise/unlocks#new", as: :unlock, via: Devise.mappings[:user].unlock_via
-    #patch "/unlock", to: "devise/unlocks#create"
+class RestrictedConstraint
+  def matches?(request)
+    request.path !~ /rails/
   end
+end
 
-  # namespace :profile, path: "" do
-  #   resources :favorites, only: :toggle do
-  #     post :toggle, on: :member, path: ""
-  #   end
-  #   resource :sessions, only: :favorite do
-  #     post :favorite, on: :member
-  #   end
-  #   resource  :my_profile, path: "profile"
-  #   resources :my_contacts, path: "mycontacts"
-  #   resource  :settings
-  # end
+Rails.application.routes.draw do
+  root "phonebook#search"
 
-  namespace :admin do
-    get "/", to: redirect { |p, r| "#{r.url}/users" }, as: "root"
-    #get "/", to: "redirect#admin", as: "root"
-    root "users#index"
+  get '/', to: 'phonebook#search', as: 'search'
+  get '/autocomplete', to: 'phonebook#autocomplete'
 
-    resources :params do
-      get :types, on: :collection
-    end
-    resources :addresses
-    resources :titles
-    resources :departments
-    resources :contacts
-    resources :users
-
-    resource  :settings, only: [:show, :update]
-    resource  :help, only: [:show, :update]
+  scope :account do
+    devise_for :users, path: "", path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      registration: 'signup'
+    }
   end
 
   namespace :api, :defaults => { :format => :json } do 
-    namespace :v1 do 
-     resources :contacts, only: [:index, :show, :create, :destroy, :update], constraints: lambda { |req| ['json', 'xml', 'csv', 'vcf', 'png'].include?(req.format) }
-     resource :help, only: [:show, :create, :destroy, :update], constraints: { format: 'html' }
+    namespace :v1 do
+      resources :contacts, only: [:index, :show, :create, :destroy, :update], constraints: lambda { |req| ['json', 'xml', 'csv', 'vcf', 'png'].include?(req.format) }
+      resource :help, only: [:show, :create, :destroy, :update], constraints: { format: 'html' }
+      resource :user, only: [:show, :update], constraints: { format: 'json' }
     end 
   end
 
-  match "*path", to: 'application#client', via: :all
+  namespace :admin do
+    get '/', to: redirect { |p, r| "#{r.url.sub(/(\/)+$/,'')}/users" }
+
+    resources :users, except: %i[show], path_names: { edit: '' }
+    resources :contacts, except: %i[show], path_names: { edit: '' }
+    resources :departments, except: %i[show], path_names: { edit: '' }
+    resources :titles, except: %i[show], path_names: { edit: '' }
+    resource :help
+    resource :settings
+  end
+
+  namespace :profile do
+    resource :my_profile
+    resources :my_contacts
+    resource :settings
+  end
+
+  resources :exports, only: %i[index new create show]
+  delete '/exports', to: 'exports#destroy_all'
+  resource :settings
+
+  resources :contacts, only: %i[show], path: '', constraints: lambda {|request| Contact.find_by_slug request.params[:id]}
+  resources :departments, only: %i[show], path: '', constraints: lambda {|request| Department.find_by_slug request.params[:id]}
+  
+  get '*path', to: redirect("?q=%{path}"), constraints: RestrictedConstraint.new
 end

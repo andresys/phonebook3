@@ -1,0 +1,4 @@
+<%= turbo_stream.append "entries" do %>
+  <%= render @contacts %>
+  <%= tag.div data: { controller: "lazy-loader", lazy_loader_url_value: pagy_next_url(@pagy) } %>
+<% end %>

@@ -4,7 +4,30 @@ class Admin::ContactsController < AdminController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    results = Contact.pagy_search(body: {
+      sort: [
+        { lastname: 'asc' },
+        { firstname: 'asc' },
+        { middlename: 'asc' },
+        '_score'
+      ],
+      query: {
+        multi_match: {
+          query: query,
+          type: "cross_fields",
+          operator: "and",
+          zero_terms_query: "all"
+        }
+      },
+    })
+    @pagy, @contacts = pagy_searchkick results
+
+    respond_to do |format|
+      format.html {
+        redirect_to [:admin, @contacts.first] if @pagy.count == 1
+      }
+      format.turbo_stream
+    end
   end
 
   # GET /contacts/1
@@ -31,10 +54,8 @@ class Admin::ContactsController < AdminController
         @contact.image.reprocess! if @contact.cropping?
         
         format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully created.' }
-        format.json { render :show, status: :created, location: @contact }
       else
         format.html { render :new }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -44,12 +65,10 @@ class Admin::ContactsController < AdminController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        @contact.image.reprocess! if @contact.cropping?
+      #   @contact.image.reprocess! if @contact.cropping?
         format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully updated.' }
-        format.json { render :show, status: :ok, location: @contact }
       else
         format.html { render :edit }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,7 +79,6 @@ class Admin::ContactsController < AdminController
     @contact.destroy
     respond_to do |format|
       format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -68,6 +86,11 @@ class Admin::ContactsController < AdminController
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
       @contact = Contact.find(params[:id])
+    end
+
+    def query
+      q = params[:q].to_s.strip
+      !q.empty? && q || '*'
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -81,10 +104,15 @@ class Admin::ContactsController < AdminController
           dep.parent_id = deps.last.id
         end
       end.last.id if contact[:deps]
-
+      
       contact[:title_id].strip!
       contact[:title_id] = (Title.where("id = ? or name = ?", contact[:title_id], contact[:title_id]).first || Title.create(name: contact[:title_id])).id
-
+      
       contact.permit(:lastname, :firstname, :middlename, :department_id, :title_id, :address_id, :location, :zip, :street, :house, :room, :image, :crop_x, :crop_y, :crop_w, :crop_h, :delete_image, params: [:id, :name, :value, :type])
+      params.require(:contact).permit(:lastname, :firstname, :middlename,
+        :location, :zip, :street, :house, :room,
+        params_attributes: [:id, :name, :value, :param_type, :_destroy]
+      )
+      # params.require(:contact).permit(:lastname, :firstname, :middlename)
     end
 end

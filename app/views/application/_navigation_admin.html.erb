@@ -1,0 +1,41 @@
+<%= link_to admin_users_path, class: "link#{request.path =~ /^#{admin_users_path}/ ? ' active' : ''}" do %>
+  Пользователи
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end if current_user.has_role?(:admin) %>
+
+<%= link_to admin_contacts_path, class: "link#{request.path =~ /^#{admin_contacts_path}/ ? ' active' : ''}" do %>
+  Управление контактами
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end %>
+
+<%= link_to admin_departments_path, class: "link#{request.path =~ /^#{admin_departments_path}/ ? ' active' : ''}" do %>
+  Структура подразделений
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end %>
+
+<%= link_to admin_titles_path, class: "link#{request.path =~ /^#{admin_titles_path}/ ? ' active' : ''}" do %>
+  Список должностей
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end %>
+
+<%= link_to admin_help_path, class: "link#{request.path =~ /^#{admin_help_path}/ ? ' active' : ''}" do %>
+  Справка по использованию
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end if current_user.has_role?(:admin) %>
+
+<%= link_to admin_settings_path, class: "link#{request.path =~ /^#{admin_settings_path}/ ? ' active' : ''}" do %>
+  Глобальные настройки
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+  </svg>
+<% end if current_user.has_role?(:admin) %>

@@ -1,0 +1,21 @@
+<div class="mt-3 text-center text-sm leading-5">
+  <% if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <div>
+      <%= link_to "Подтвердить аккаунт", new_confirmation_path(resource, resource_name), class: "link font-medium" %>
+    </div>
+  <% end %>
+
+  <% if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <div>
+      <%= link_to "Разблокировать аккаунт", new_unlock_path(resource_name), class: "link font-medium" %>
+    </div>
+  <% end %>
+
+  <% if devise_mapping.omniauthable? %>
+    <div>
+      <% resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to "Войти через #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "link font-medium" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

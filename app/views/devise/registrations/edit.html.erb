@@ -1,43 +1,41 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="card py-8 px-4 sm:px-10">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <div>
+      <%= f.label :email, "Email-адрес", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <%= f.email_field :email, autofocus: true, autocomplete: "off", placeholder: "user@adm.tver.ru", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <div class="mt-6">
+      <%= f.label :password, "Пароль", class: "block text-sm font-medium leading-5 text-gray-700 tracking-[2px]" %>
+      <div class="mt-1 rounded-md shadow-sm">
+        <%= f.password_field :password, autocomplete: "new-password", placeholder: "не менее #{@minimum_password_length} символов", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <div class="mt-2 rounded-md shadow-sm">
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "повторите пароль", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 sm:text-sm sm:leading-5" %>
+      </div>
+  
+      <em class="text-sm text-gray-700">оставьте пустым, если не хотите его менять</em>
+    </div>
+
+    <div class="mt-6">
+      <span class="block w-full rounded-md shadow-sm">
+        <button type="submit" class="btn-primary w-full flex justify-center">
+          Изменить
+        </button>
+      </span>
+    </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+  <% if controller_name != 'sessions' %>
+    <p class="mt-4 text-center text-sm text-gray-900 max-w">Не нравиться?
+      <%= link_to "удалить аккаунт", registration_path(resource_name), class: "link font-medium", data: { turbo_confirm: "Вы уверены?", turbo_method: :delete } %>
+    </p>
+  <% end %>
+</div>

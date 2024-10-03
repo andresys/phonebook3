@@ -1,0 +1,18 @@
+<% provide :page_title, "Список контактов" %>
+
+<%= page_title "Список контактов" do %>
+  <%= link_to [:new, :admin, :contact], class: "btn-primary flex flex-nowrap items-center gap-2 w-full justify-center" do %>
+    <%= bs_icon 'folder-plus' %>
+    Добавить
+  <% end %>
+<% end %>
+
+<%= render "search" %>
+
+<div class="treeview mb-4">
+  <%= tag.ul id: "entries", data: { controller: "entries", entries_src_value: "/admin/contacts.turbo_stream" } do %>
+    <%= render @contacts %>
+    
+    <%= tag.div data: { controller: "lazy-loader", lazy_loader_url_value: pagy_next_url(@pagy) } %>
+  <% end %>
+</div>

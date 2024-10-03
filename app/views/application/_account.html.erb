@@ -1,0 +1,46 @@
+<div class="relative inline-block text-left text-black" data-controller="dropdown">
+  <a href="#menu" class="link_nav flex items-center" data-action="dropdown#toggle click@window->dropdown#hide">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+    </svg>
+    <%= current_user.contact || current_user.email %>
+    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+  </a>
+  
+  <div class="hidden card min-w-[450px] absolute right-0 z-50 my-1 w-full origin-top-right" data-dropdown-target="menu">
+    <div class="p-3 flex">
+      <div class="mr-4">
+        <%= image_tag current_user.contact.image(:small) || "user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: !!current_user.contact.image(:small) %>
+        <%#= image_tag current_user.contact.image.attached? ? current_user.contact.image.variant(:small) : "small_user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: true %>
+      </div>
+      <div>
+        <%= tag.h6 current_user.contact, class: "font-medium mb-2" %>
+        <span class="text-sm font-light">
+          <%= tag.p current_user.contact.title %>
+          <%= tag.p current_user.contact.department %>
+        </span>
+      </div>
+    </div>
+    <hr>
+    <div class="grid grid-cols-2 p-3 gap-2">
+      <div>
+        <h6 class="font-medium mb-2 text-sm">Мой профиль</h6>
+        <nav class="account-menu">
+          <%= render "navigation_profile"%>
+        </nav>
+      </div>
+      <%= tag.div do %>
+        <h6 class="font-medium mb-2 text-sm">Управление системой</h6>
+        <nav class="account-menu">
+          <%= render "navigation_admin"%>
+        </nav>
+      <% end if current_user.has_role?(:admin) %>
+    </div>
+    <div class="p-3 rounded-b-md bg-gray-100 flex gap-2 justify-between items-baseline text-sm">
+      <%= link_to 'Изменить пароль', edit_registration_path(:user), class: "link" %>
+      <%= link_to 'Выход', destroy_session_path(:user), data: { turbo_method: 'delete' }, class: "btn btn-sm", role: "button" %>
+    </div>
+  </div>
+</div>

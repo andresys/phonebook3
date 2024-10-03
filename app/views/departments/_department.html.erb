@@ -1,0 +1,22 @@
+<% return unless department %>
+
+<% unless department.id == session[:current_department].last %>
+  <% deps = department.self_and_ancestors%>
+  <% join_dep_title = true %>
+
+  <% if join_dep_title %>
+    <div class="col-span-2 py-2 px-4 shadow-md rounded bg-gray-50 flex flex-wrap gap-2">
+      <% department_full deps, session[:current_department] do |department_title| %>
+        <%= tag.h5 department_title, class: "text-xl font-medium after:content-['_/'] last:after:content-none cursor-pointer", data: { controller: "department", department_url_value: department_path(department_title) } %>
+      <% end %>
+    </div>
+  <% else %>
+    <% department_full deps, session[:current_department] do |department_title| %>
+      <div class="col-span-2 py-2 px-4 shadow-md rounded bg-gray-50">
+        <%= tag.h5 department_title, class: "text-xl font-medium cursor-pointer", data: { controller: "department", department_value: department_title.slug } %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% session[:current_department] = deps.pluck(:id) %>
+<% end %>

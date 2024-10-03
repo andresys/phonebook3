@@ -24,6 +24,6 @@ json.contacts @contacts do |contact|
   json.department contact.department.self_and_ancestors.map{|dep| {name: dep.to_s, slug: dep.slug}}
   #json.chief contact.chief
   json.photo contact.image.url(:small, timestamp: false)
-  json.favorite JSON.parse(contact.favorite || "[]").include?(current_user.id) if current_user
+  json.favorite JSON.parse(contact.favorite || "[]") #.include?(current_user.id) if current_user
   json.params additional_params(JSON.parse(contact.json_params))
 end

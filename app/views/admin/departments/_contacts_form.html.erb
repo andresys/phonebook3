@@ -1,0 +1,48 @@
+<% phones = f.object.params.where(param_type: "phone") %>
+<div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline" data-controller="nested-form" data-nested-form-wrapper-selector-value=".nested-form-wrapper">
+  <template data-nested-form-target="template">
+    <%= f.fields_for :params, Param.new(param_type: "phone"), child_index: 'NEW_RECORD' do |param_fields| %>
+      <%= render "param_form", f: param_fields, placeholder_type: "Тип номера", placeholder_value: "Номер" %>
+    <% end %>
+  </template>
+  <%= label_tag "contact[params_attributes][0][value]", "Контактный телефон:", class: "font-medium min-w-64" %>
+  <div class="flex flex-col gap-2 w-full">
+    <%= f.fields_for :params, phones do |param_fields| %>
+      <%= render "param_form", f: param_fields, placeholder_type: "Тип номера", placeholder_value: "Номер" %>
+    <% end %>
+
+    <button type="button" class="btn w-24 ml-auto" data-action="nested-form#add" data-nested-form-target="target">
+      Добавить
+    </button>
+  </div>
+</div>
+
+<% emails = f.object.params.where(param_type: "email") %>
+<div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline" data-controller="nested-form" data-nested-form-wrapper-selector-value=".nested-form-wrapper">
+  <template data-nested-form-target="template">
+    <%= f.fields_for :params, Param.new(param_type: "email"), child_index: 'NEW_RECORD' do |param_fields| %>
+      <%= render "param_form", f: param_fields, placeholder_type: "Тип e-mail", placeholder_value: "E-mail" %>
+    <% end %>
+  </template>
+  <%= label_tag "contact[params_attributes][#{emails.count}][value]", "Контактный Email:", class: "font-medium min-w-64" %>
+  <div class="flex flex-col gap-2 w-full">
+    <%= f.fields_for :params, emails do |param_fields| %>
+      <%= render "param_form", f: param_fields, placeholder_type: "Тип e-mail", placeholder_value: "E-mail" %>
+    <% end %>
+
+    <button type="button" class="btn w-24 ml-auto" data-action="nested-form#add" data-nested-form-target="target">
+      Добавить
+    </button>
+  </div>
+</div>
+
+<div class="flex flex-wrap lg:flex-nowrap gap-2 mb-8 items-baseline">
+  <%= f.label :location, "Адрес контакта:", class: "font-medium min-w-64" %>
+  <div class="grid grid-cols-5 gap-2 grow">
+    <%= f.select :location, Address.all_locations, { include_blank: true }, placeholder: "Населенный пункт", class: "form-input col-span-3", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+    <%= f.select :zip, Address.all_zips, { include_blank: true }, placeholder: "Индекс", class: "form-input col-span-2", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+    <%= f.select :street, Address.all_streets, { include_blank: true }, placeholder: "Улица", class: "form-input col-span-3", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+    <%= f.select :house, Address.all_houses, { include_blank: true }, placeholder: "Здание", class: "form-input", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+    <%= f.select :room, Address.all_rooms, { include_blank: true }, placeholder: "Офис", class: "form-input", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+  </div>
+</div>

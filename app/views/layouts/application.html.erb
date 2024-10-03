@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= full_title yield(:page_title) %></title>
+    <%= action_cable_meta_tag %>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <%= favicon_link_tag '/favicon.png' %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", media: 'all', "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <%= render "header" %>
+
+    <% if content_for?(:side) %>
+      <%= yield(:side) %>
+    <% else %>
+      <main class="tall:pb-10 pb-0 px-4 mx-auto max-w-screen-xl w-full text-gray-700">
+        <%= yield %>
+      </main>
+    <% end %>
+
+    <%= render "footer" %>
+  </body>
+</html>

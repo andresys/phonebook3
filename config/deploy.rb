@@ -1,39 +1,94 @@
-# config valid for current version and patch releases of Capistrano
-lock "~> 3.11.0"
+require 'mina/rails'
+require 'mina/git'
+require 'mina/rvm'
 
-set :application, "phonebook3"
-set :repo_url, "git@example.com:me/my_repo.git"
+# Basic settings:
+#   domain       - The hostname to SSH to.
+#   deploy_to    - Path to deploy into.
+#   repository   - Git repo to clone from. (needed by mina/git)
+#   branch       - Branch name to deploy. (needed by mina/git)
 
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :application_name, 'phonebook3'
+set :domain, '10.10.2.32'
+set :user, fetch(:application_name)
+set :deploy_to, "/var/www/phonebook.adm.tver.ru/app"
+set :repository, 'git@github.com:andresys/phonebook3.git'
+set :branch, 'main'
+set :rvm_use_path, '/etc/profile.d/rvm.sh'
 
-# Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
+# Optional settings:
+#   set :user, 'foobar'          # Username in the server to SSH to.
+#   set :port, '30000'           # SSH port number.
+#   set :forward_agent, true     # SSH forward_agent.
 
-# Default value for :format is :airbrussh.
-# set :format, :airbrussh
+# Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
+# Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
+# run `mina -d` to see all folders and files already included in `shared_dirs` and `shared_files`
+# set :shared_dirs, fetch(:shared_dirs, []).push('public/assets')
+set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
+set :shared_dirs, fetch(:shared_dirs, []).push('public/packs', 'node_modules', 'storage')
 
-# You can configure the Airbrussh format using :format_options.
-# These are the defaults.
-# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
+# This task is the environment that is loaded for all remote run commands, such as
+# `mina deploy` or `mina rake`.
+task :remote_environment do
+  ruby_version = File.read('.ruby-version').strip
+  raise "Couldn't determine Ruby version: Do you have a file .ruby-version in your project root?" if ruby_version.empty?
 
-# Default value for :pty is false
-# set :pty, true
+  invoke :'rvm:use', ruby_version
+end
 
-# Default value for :linked_files is []
-# append :linked_files, "config/database.yml"
+# Put any custom commands you need to run at setup
+# All paths in `shared_dirs` and `shared_paths` will be created on their own.
+task :setup do
 
-# Default value for linked_dirs is []
-# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+  in_path(fetch(:shared_path)) do
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+    command %[mkdir -p config]
 
-# Default value for local_user is ENV['USER']
-# set :local_user, -> { `git config user.name`.chomp }
+    # Create database.yml for Postgres if it doesn't exist
+    path_database_yml = "config/database.yml"
+    database_yml = %[production:
+  database: #{fetch(:user)}
+  adapter: postgresql
+  pool: 5
+  timeout: 5000]
+    command %[test -e #{path_database_yml} || echo "#{database_yml}" > #{path_database_yml}]
 
-# Default value for keep_releases is 5
-# set :keep_releases, 5
+    # Create secrets.yml if it doesn't exist
+    path_secrets_yml = "config/secrets.yml"
+    secrets_yml = %[production:\n  secret_key_base:\n    #{`bundle exec rake secret`.strip}]
+    command %[test -e #{path_secrets_yml} || echo "#{secrets_yml}" > #{path_secrets_yml}]
 
-# Uncomment the following to require manually verifying the host key before first deploy.
-# set :ssh_options, verify_host_key: :secure
+    # Remove others-permission for config directory
+    command %[chmod -R o-rwx config]
+  end
+
+end
+
+desc "Deploys the current version to the server."
+task :deploy do
+  # uncomment this line to make sure you pushed your local branch to the remote origin
+  # invoke :'git:ensure_pushed'
+  deploy do
+    # Put things that will set up an empty directory into a fully set-up
+    # instance of your project.
+    invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
+    invoke :'bundle:install'
+    invoke :'rails:db_migrate'
+    invoke :'rails:assets_precompile'
+    invoke :'deploy:cleanup'
+
+    on :launch do
+      command "sudo systemctl restart #{fetch(:user)}"
+      # command "sudo systemctl restart #{fetch(:user)}-sidekiq"
+    end
+  end
+
+  # you can use `run :local` to run tasks on local machine before of after the deploy scripts
+  # run(:local){ say 'done' }
+end
+
+# For help in making your deploy script, see the Mina documentation:
+#
+#  - https://github.com/mina-deploy/mina/tree/master/docs

@@ -1,0 +1,22 @@
+.left-menu {
+  * {
+    @apply transition-all ease-in-out duration-150;
+  }
+
+  a {
+    @apply relative flex items-center my-1 px-4 py-3 rounded-3xl hover:bg-pb-100 link-no-decorate;
+    
+    &>svg {
+      @apply ml-auto opacity-0 delay-0;
+    }
+  }
+
+  a:hover>svg,
+  a.active>svg {
+    @apply translate-x-1 opacity-100 delay-100;
+  }
+
+  a.active {
+    @apply bg-pb-400 hover:bg-pb-500 text-gray-50;
+  }
+}

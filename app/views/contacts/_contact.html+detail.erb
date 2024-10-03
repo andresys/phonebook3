@@ -1,0 +1,55 @@
+<% phones = contact.params.where(param_type: 'phone') %>
+<% emails = contact.params.where(param_type: 'email') %>
+
+<%= tag.div class: "grid align-top col-span-2 md:col-span-1 focus:outline-none ",
+  data: { controller: "contact", contact_slug_value: contact.slug } do
+%>
+  <div class="sm:flex justify-center items-start text-center sm:text-left">
+    <%= image_tag contact.image(:medium), class: "border p-1 sm:mr-10 rounded mx-auto", skip_pipeline: true %>
+    <%#= image_tag contact.image.attached? ? contact.image.variant(:medium) : "medium_user.png", class: "border p-1 sm:mr-10 rounded mx-auto", skip_pipeline: true %>
+
+    <div class="flex-auto">
+      <%= tag.h3 contact.name, class: "font-medium text-3xl mb-4" %>
+      <%= tag.p contact.title, class: "text-md mb-4" %>
+
+      <div class="mb-4 bg-gray-50 py-2 px-4">
+        <ol class="flex flex-wrap gap-2 justify-center sm:justify-start">
+          <% contact.department.self_and_ancestors.each do |dep| %>
+            <%= tag.li dep.name,
+               class: "text-pb-600 cursor-pointer after:content-['/'] after:pl-2 after:text-gray-300 after:last:content-none",
+               data: { controller: "department", department_url_value: department_path(dep) }
+            %>
+          <% end %>
+        </ol>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-10 text-gray-500">
+        <%= tag.dl class: "text-md w-full" do %>
+          <dt class="flex items-center mt-1 font-medium border-b mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+              <path fill-rule="evenodd" d="m3.855 7.286 1.067-.534a1 1 0 0 0 .542-1.046l-.44-2.858A1 1 0 0 0 4.036 2H3a1 1 0 0 0-1 1v2c0 .709.082 1.4.238 2.062a9.012 9.012 0 0 0 6.7 6.7A9.024 9.024 0 0 0 11 14h2a1 1 0 0 0 1-1v-1.036a1 1 0 0 0-.848-.988l-2.858-.44a1 1 0 0 0-1.046.542l-.534 1.067a7.52 7.52 0 0 1-4.86-4.859Z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-1 text-nowrap">Телефон для связи:</span>
+          </dt>
+        
+          <% phones.each do |phone| %>
+            <%= format_tag phone, type: "phone" %>
+          <% end %>
+        <% end if phones.any? %>
+
+        <%= tag.dl class: "text-md w-full" do %>
+          <dt class="flex flex-wrap items-center mt-1 font-medium border-b mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+              <path fill-rule="evenodd" d="M11.89 4.111a5.5 5.5 0 1 0 0 7.778.75.75 0 1 1 1.06 1.061A7 7 0 1 1 15 8a2.5 2.5 0 0 1-4.083 1.935A3.5 3.5 0 1 1 11.5 8a1 1 0 0 0 2 0 5.48 5.48 0 0 0-1.61-3.889ZM10 8a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-1 text-nowrap">Электронная почта:</span>
+          </dt>
+
+          <% emails.each do |email| %>
+            <%= format_tag email, type: "email" %>
+          <% end %>
+        <% end if emails.any? %>
+      </div>
+    </div>
+  </div>
+<% end %>

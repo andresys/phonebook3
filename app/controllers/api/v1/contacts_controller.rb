@@ -1,5 +1,8 @@
 class Api::V1::ContactsController < ApplicationController
   def index
+    p "---------------"
+    @user = current_user
+    p @user
     from = params[:from] || 0
     limit = params[:limit] || 50
 
@@ -16,7 +19,7 @@ class Api::V1::ContactsController < ApplicationController
       res = Contact.search(params[:q], fav_list)
       cid = res[0].first unless res.blank? || res[0].count != 1
       cids = res.flatten - ([cid] || [])
-      @contact = Contact.find(cid) if cid
+      @contact = Contact.find_by_id(cid) if cid
       where = cids.count > 0 ? "contacts.id IN (#{cids.join(',')})" : "false"
     end
 
@@ -35,6 +38,7 @@ class Api::V1::ContactsController < ApplicationController
     #render json: Contact.all
     #render json: @contacts.map {|c| c.attributes.merge(:img_url => c.image(:small))}
     #render params[:template] #rescue render json: {error: "Unknown template"}
+
     error_message = "Unknown template"
     @filename = 'freepbx_phonebook.csv'
     @output_encoding = 'UTF-8'

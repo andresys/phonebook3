@@ -1,0 +1,35 @@
+<% provide :page_title, "Список пользователей" %>
+
+<%= page_title "Список пользователей" do %>
+  <%= link_to [:new, :admin, :user], class: "btn-primary flex flex-nowrap items-center gap-2 w-full justify-center" do %>
+    <%= bs_icon 'folder-plus' %>
+    Добавить
+  <% end %>
+<% end %>
+
+<%= fields_for :user do |f| %>
+  <div class="treeview mb-4">
+    <ul>
+      <% @users.each do |user| %>
+        <li>
+          <div class="group flex items-center gap-1 select-none">
+            <%#= bs_icon 'dash-square' %>
+            <%= f.check_box user.id, class: "mr-2" %>
+            <%= tag.span class: "click hover:text-gray-950" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+
+            <% end %>
+
+            <%= tag.div user.contact || '-', class: "flex-auto truncate select-text", title: user.contact || '-' %>
+
+            <%= link_to [:edit, :admin, user], class: "hidden group-hover:block text-pb-400 hover:text-pb-600" do %>
+              <%= bs_icon 'pencil-square' %>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

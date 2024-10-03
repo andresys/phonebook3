@@ -1,0 +1,17 @@
+<% provide :page_title, "Справка по использованию" %>
+
+<%= page_title "Справка по использованию" %>
+
+<%= form_tag admin_help_path, method: "PUT" do %>
+  <%= fields_for :helps, @help do |f| %>
+    <div class="mt-2">
+      <%= f.text_area :text, class: "w-full h-96 border rounded-xl p-2", data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: "500" } %>
+    </div>
+
+    <div class="form-group row mt-4">
+      <div class="col text-center">
+        <%= f.submit "Сохранить изменения", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end%>
+<% end %>

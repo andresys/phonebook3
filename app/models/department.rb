@@ -1,4 +1,7 @@
 class Department < ApplicationRecord
+  include Settings::DepartmentSearch
+  include Slugged
+
   def initialize(args = {})
     args ||= {}
     args[:params] = init_params(args[:params]) if args[:params]
@@ -14,9 +17,6 @@ class Department < ApplicationRecord
   
   acts_as_nested_set
 
-  extend FriendlyId
-  friendly_id :slug_candidates
-
   attr_accessor :location, :zip, :street, :house, :room
 
   has_many :contacts #, :include => :title, :order => ['titles.position', 'lastname']
@@ -24,11 +24,26 @@ class Department < ApplicationRecord
   belongs_to :chief, class_name: "Contact", optional: true
   belongs_to :address, optional: true
 
+  accepts_nested_attributes_for :params, reject_if: :all_blank, allow_destroy: true
+
   def slug_candidates
     [
-      [parent && parent.self_and_ancestors.map{|dep| dep.name}, :name],
-      [:name]
+      # [parent && parent.self_and_ancestors.map{|dep| dep.name}, :name],
+      [:name],
+      [:name, :id]
     ]
+  end
+
+  def abbrs
+    abbrs = []
+    departments = self_and_ancestors.map{|dep| !dep.name.blank? && dep.name.gsub(/[^а-яА-Я0-9a-zA-Z]+/, " ").split(' ')}
+    # abbrs += departments.flatten if departments
+    abbrs += departments.map do |d|
+      deps1 = d.select{|val| val != val.upcase}.map{|val| val[0]}.join
+      deps2 = d.select{|val| val != val.upcase && val.length > 2}.map{|val| val[0]}.join
+      [deps1, deps2].select{|val| val.length > 1}
+    end.flatten if departments
+    abbrs
   end
 
   def to_s
