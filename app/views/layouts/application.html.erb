@@ -3,7 +3,7 @@
   <head>
     <title><%= full_title yield(:page_title) %></title>
     <%= action_cable_meta_tag %>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <%= favicon_link_tag '/favicon.png' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,7 +15,13 @@
   <body>
     <%= render "header" %>
 
-    <%= content_for?(:side) ? yield(:side) : yield %>
+    <% if content_for?(:side) %>
+      <%= yield(:side) %>
+    <% else %>
+      <main class="tall:pb-10 pb-0 px-4 mx-auto max-w-screen-xl w-full text-gray-700">
+        <%= yield %>
+      </main>
+    <% end %>
 
     <%= render "footer" %>
   </body>

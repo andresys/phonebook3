@@ -1,0 +1,10 @@
+<% return if @results.count == 0 %>
+
+<div class="px-2">
+  <span class="text-pb-300 text-xs lowercase">Возможные варианты:</span>
+</div>
+<ul class="mb-2">
+  <% @results.each do |item| %>
+    <%= render item %>
+  <% end %>
+</ul>

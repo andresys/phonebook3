@@ -36,4 +36,19 @@ module ApplicationHelper
   def hicom_phone(phones)
     phones.select{ |phone| phone['type'][/^hicom/i] }
   end
+
+  def department_full deps, prev
+    return unless block_given?
+    deps = department_title deps, prev
+    deps.map { |dep| yield(dep) }
+  end
+
+  private
+
+  def department_title deps, prev
+    deps.each_with_index do |dep, i|
+      return deps[i..] unless prev[i] == dep.id
+    end
+    []
+  end
 end

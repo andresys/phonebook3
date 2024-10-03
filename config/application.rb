@@ -31,5 +31,6 @@ module Phonebook3
 
     # config.api_only = false
     # config.middleware.use ActionDispatch::Flash
+    config.active_storage.variant_processor = :mini_magick
   end
 end

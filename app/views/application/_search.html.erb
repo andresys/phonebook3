@@ -1,3 +1,34 @@
+<% url ||= url_for(action: 'index') %>
+<% autofocus ||= false %>
+
 <div class="sticky top-2 tall:top-24 mt-12 mb-8 z-20">
-  <input class="w-full px-4 py-2 text-xl border border-gray-300 rounded-md focus:outline-none focus:shadow-[0_0_0_0.25rem] focus:shadow-pb-300/50" type="text" placeholder="Быстрый поиск контактов" autocomplete="off">
+  <%= form_with url:, method: "GET", class: "relative group", data: { controller: "search autocomplete", autocomplete_url_value: "/autocomplete" } do |f| %>
+    <div role="combobox">
+      <%= f.text_field :q,
+        class: "relative w-full pl-4 pr-[70px] py-2 text-xl border border-gray-300 rounded-md focus:shadow-[0_0_0_0.25rem] focus:shadow-pb-300/50 z-10",
+        placeholder: "Быстрый поиск контактов",
+        autocomplete: "off",
+        data: { search_target: "input", autocomplete_target: "input" },
+        autofocus:
+      %>
+      <div class="absolute top-1 right-1 h-[38px] pr-2 flex gap-3 items-center bg-white z-20">
+        <svg
+          class="h-6 cursor-pointer text-gray-400 group-has-[:placeholder-shown]:hidden click"
+          focusable="false"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 320 512"
+          data-search-target="clear"
+          >
+          <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
+        </svg>
+        <%= f.button name: nil, class: "click" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-6 text-gray-400">
+            <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v1.5a.75.75 0 0 0 1.5 0v-1.5a.25.25 0 0 1 .25-.25h1.5a.75.75 0 0 0 0-1.5h-1.5ZM10.75 2a.75.75 0 0 0 0 1.5h1.5a.25.25 0 0 1 .25.25v1.5a.75.75 0 0 0 1.5 0v-1.5A1.75 1.75 0 0 0 12.25 2h-1.5ZM3.5 10.75a.75.75 0 0 0-1.5 0v1.5c0 .966.784 1.75 1.75 1.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.25.25 0 0 1-.25-.25v-1.5ZM14 10.75a.75.75 0 0 0-1.5 0v1.5a.25.25 0 0 1-.25.25h-1.5a.75.75 0 0 0 0 1.5h1.5A1.75 1.75 0 0 0 14 12.25v-1.5ZM8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+          </svg>
+        <% end %>
+      </div>
+      <div class="absolute bg-white pt-2 rounded-b-lg border-b border-x border-gray w-full drop-shadow-md hidden has-[ul]:block z-5" data-autocomplete-target="results"></div>
+    </div>
+  <% end %>
 </div>

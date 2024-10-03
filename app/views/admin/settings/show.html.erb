@@ -3,17 +3,15 @@
 <%= page_title "Глобальные настройки" %>
 
 <%= form_with url: [:admin, :settings], method: "PUT" do |f| %>
-  <div class="card p-6 bg-gray-50 w-full mb-4" data-tabs-target="tab" id="profile">
-    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-      <%= f.label :title, "Наименование справочника:", class: "font-medium min-w-64" %>
-      <%= f.text_field :title, class: "form-input grow", placeholder: "Наименование для телефонного справочника" %>
-    </div>
+  <div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+    <%= f.label :title, "Наименование справочника:", class: "font-medium min-w-64" %>
+    <%= f.text_field :title, class: "form-input grow", placeholder: "Наименование для телефонного справочника" %>
+  </div>
 
-    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-      <%= f.label :default_page, "Контакты по умолчанию:", class: "font-medium min-w-64" %>
-      <% options = {contacts: "Все контакты", favorites: "Избранные", sessions: "Запоминать"} %>
-      <%= f.select :default_page, options.invert, {}, class: "form-input grow", data: {role: "select2", "minimumResultsForSearch": "-1"} %>
-    </div>
+  <div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+    <%= f.label :default_page, "Контакты по умолчанию:", class: "font-medium min-w-64" %>
+    <% options = {contacts: "Все контакты", favorites: "Избранные", sessions: "Запоминать"} %>
+    <%= f.select :default_page, options.invert, {}, class: "form-input grow", data: { controller: "tom-select" } %>
   </div>
 
   <div class="flex gap-2 justify-center items-baseline">

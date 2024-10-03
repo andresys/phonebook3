@@ -1,9 +1,0 @@
-<%# current_department = nil %>
-
-<% @contacts.each do |contact| %>
-  <%# unless contact.department == current_department %>
-    <%#= render "department", department: contact.department %>
-    <%# current_department = contact.department %>
-  <%# end %>
-  <%= render "contact", contact: contact %>
-<% end %>

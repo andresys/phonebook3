@@ -10,9 +10,9 @@
 # You can set any pagy variable as a Pagy::DEFAULT. They can also be overridden per instance by just passing them to
 # Pagy.new|Pagy::Countless.new|Pagy::Calendar::*.new or any of the #pagy* controller methods
 # Here are the few that make more sense as DEFAULTs:
-# Pagy::DEFAULT[:items]       = 20                    # default
+Pagy::DEFAULT[:items]       = 20                    # default
 # Pagy::DEFAULT[:size]        = [1,4,4,1]             # default in pagy < 7.0
-# Pagy::DEFAULT[:page_param]  = :page                 # default
+Pagy::DEFAULT[:page_param]  = :page                 # default
 # Pagy::DEFAULT[:count_args]  = []                    # example for non AR ORMs
 
 
@@ -103,9 +103,9 @@
 # DEFAULT[:searchkick_pagy_search] = :pagy_search
 # Default original :search method called internally to do the actual search
 # Pagy::DEFAULT[:searchkick_search] = :search
-# require 'pagy/extras/searchkick'
+require 'pagy/extras/searchkick'
 # uncomment if you are going to use Searchkick.pagy_search
-# Searchkick.extend Pagy::Searchkick
+Searchkick.extend Pagy::Searchkick
 
 
 # Frontend Extras
@@ -121,7 +121,7 @@
 # Pagy extra: Add the pagy styled versions of the javascript-powered navs
 # and a few other components to the Pagy::Frontend module.
 # See https://ddnexus.github.io/pagy/docs/extras/pagy
-# require 'pagy/extras/pagy'
+require 'pagy/extras/pagy'
 
 # Multi size var used by the *_nav_js helpers
 # See https://ddnexus.github.io/pagy/docs/extras/pagy#steps

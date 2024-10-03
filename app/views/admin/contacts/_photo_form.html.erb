@@ -1,0 +1,17 @@
+<%= tag.div class: "md:mr-8 mb-4 self-start", data: { controller: "crop image-preview", crop_active_value: @contact.image.present?, image_preview_crop_outlet: "[data-controller~=crop]" } do %>
+  <%= f.label :image do %>
+    <div class="border p-1 rounded w-fit mx-auto">
+      <div class="flex justify-center items-center w-[200px] h-[200px] relative overflow-hidden">
+        <div class="absolute h-full flex items-center text-center bg-white/80 text-gray-600 hover:bg-white/90 hover:text-gray-900 cursor-pointer">
+          <span>Перетащите сюда изображение или кликните чтобы выбрать его</span>
+        </div>
+        <%= image_tag @contact.image(:original), alt: @contact, data: { crop_target: "image", image_preview_target: "image" }, skip_pipeline: true %>
+        <%#= image_tag @contact.image.attached? ? @contact.image.variant(:medium) : "medium_user.png", alt: @contact, data: { crop_target: "image" }, skip_pipeline: true %>
+      </div>
+    </div>
+  <% end %>
+  <%= f.file_field :image, class: "hidden", data: { image_preview_target: "input" } %>
+  <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
+    <%= f.hidden_field attribute, data: { crop_target: attribute } %>
+  <% end %>
+<% end %>

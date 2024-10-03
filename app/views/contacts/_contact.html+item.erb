@@ -1,0 +1,10 @@
+<li
+  class="p-2 hover:bg-pb-100 hover:cursor-pointer focus:bg-pb-100 [&.active]:bg-pb-100"
+  role="option"
+  data-autocomplete-value="<%= contact.slug %>"
+>
+  <div class="flex flex-col flex-wrap text-sm">
+    <%= tag.h6 contact.name, class: "font-medium" %>
+    <%= tag.p contact.department.ancestors&.map{_1.name.capitalize}.push(contact.title).join(' / ') %>
+  </div>
+</li>

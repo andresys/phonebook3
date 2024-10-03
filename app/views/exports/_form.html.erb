@@ -1,0 +1,20 @@
+<%= form_with model: @export do |f| %>
+  <%= f.hidden_field :id %>
+
+  <%= f.fields_for :config do |config| %>
+    <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+      <%= config.label :sort, "Сортировка:", class: "font-medium min-w-64" %>
+
+      <%= config.radio_button :sort, :name, checked: true %>
+      <%= config.label :sort_name, "по имени", class: "mr-4" %>
+
+      <%= config.radio_button :sort, :struct, class: "" %>
+      <%= config.label :sort_struct, "по структуре" %>
+    </div>
+  <% end %>
+
+  <div class="flex gap-2 justify-center items-baseline">
+    <%= link_to "Отмена", [:exports], class: "btn", role: "button" %>
+    <%= f.button "Создать", class: "btn-primary" %>
+  </div>
+<% end %>

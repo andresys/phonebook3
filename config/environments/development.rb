@@ -12,6 +12,8 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  config.web_console.permissions = '172.30.128.0/24'
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
@@ -29,7 +31,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
-
+  
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -56,7 +58,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
    
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => "172.30.6.250:3000" }
+  config.action_mailer.default_url_options = { :host => "10.10.2.250:3000" }
   config.action_mailer.smtp_settings = {
     :address              => "adm.tver.ru",
     :port                 => 587,

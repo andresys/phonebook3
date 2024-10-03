@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.1.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.1.3.2'
+# Use postgresql as the database for Active Record
+gem 'pg', '~> 1.1'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
@@ -64,9 +66,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'slim'
 
 gem 'paperclip', '~> 6.1.0'
-gem 'friendly_id', '~> 5.5.1'
+gem 'friendly_id', '~> 5.5.0'
 gem "devise", "~> 4.9.3"
 gem "rails-i18n", "~> 7.0"
+gem "babosa", "~> 2.0"
 
 gem 'awesome_nested_set'
 gem 'acts_as_list'
@@ -85,4 +88,19 @@ gem "rack-cors"
 
 gem "rails-settings-cached", "~> 2.9"
 gem "stimulus-rails", "~> 1.3"
-gem "pagy", "~> 6.5"
+gem "pagy", "~> 8.2"
+
+gem "searchkick"
+gem "elasticsearch"
+
+gem "rubyzip", "~> 2.3"
+gem "caxlsx", "~> 4.1"
+gem "caxlsx_rails", "~> 0.6.4"
+
+gem "sidekiq", "~> 7.3"
+
+gem "after_commit_everywhere", "~> 1.4"
+
+gem "httparty", "~> 0.22.0"
+
+gem "activestorage-validator", "~> 0.4.0"

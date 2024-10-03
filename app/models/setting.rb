@@ -4,9 +4,11 @@ class Setting < RailsSettings::Base
 
   # Define your fields
   # field :host, type: :string, default: "http://localhost:3000"
+  # field :default_locale, default: "en", type: :string
+  # field :confirmable_enable, default: "0", type: :boolean
+  # field :admin_emails, default: "admin@rubyonrails.org", type: :array
   # field :omniauth_google_client_id, default: (ENV["OMNIAUTH_GOOGLE_CLIENT_ID"] || ""), type: :string, readonly: true
   # field :omniauth_google_client_secret, default: (ENV["OMNIAUTH_GOOGLE_CLIENT_SECRET"] || ""), type: :string, readonly: true
-  # field :admin_emails, default: "admin@rubyonrails.org", type: :array
   scope :general do
     field :title, default: "Телефонный справочник [версия 3.5]", type: :string
     field :default_per_page, default: 20, type: :integer

@@ -1,0 +1,6 @@
+<% session[:current_department] = [] if @pagy.page == 1 %>
+
+<% @results.each do |contact| %>
+  <%= render contact.department if contact&.department %>
+  <%= render contact if contact %>
+<% end %>

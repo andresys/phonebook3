@@ -1,0 +1,34 @@
+wb = xlsx_package.workbook
+
+title_style = wb.styles.add_style(
+  border: Axlsx::STYLE_THIN_BORDER,
+  b: true,
+  alignment: { wrap_text: true, horizontal: :center, vertical: :center }
+)
+cell_style = wb.styles.add_style(
+  border: Axlsx::STYLE_THIN_BORDER,
+  alignment: { wrap_text: true, horizontal: :left, vertical: :top }
+)
+cell_center_style = wb.styles.add_style(
+  border: Axlsx::STYLE_THIN_BORDER,
+  alignment: { wrap_text: true, horizontal: :center, vertical: :top }
+)
+
+page_setup = {
+  fit_to_width: 1,
+  fit_to_height: 0
+}
+
+wb.add_worksheet(name: "Телефонный справочник", page_setup:) do |sheet|
+  sheet.merge_cells "E1:F1"
+  sheet.add_row ["№", "Ф.И.О.", "Подразделение", "Должность", "Контактные данные", ""], style: title_style
+  
+  contacts.each_with_index do |contact, index|
+    phones = contact.params.where(param_type: 'phone').map(&:value).join("\x0D\x0A")
+    emails = contact.params.where(param_type: 'email').map(&:value).join("\x0D\x0A")
+    
+    sheet.add_row [index + 1, contact.name, contact.department, contact.title, phones, emails], style: [ title_style, cell_style, cell_style, cell_style, cell_center_style, cell_center_style], types: :string
+  end
+
+  sheet.column_widths 5, 30, 30, 20, 10, 25
+end

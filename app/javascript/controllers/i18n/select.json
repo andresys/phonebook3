@@ -1,0 +1,14 @@
+{
+  "ru": {
+    "remove_button": "Удалить элемент",
+    "add": "Добавить",
+    "no_results": "Ничего не нашлось",
+    "clear_button": "Удалить все элементы"
+  },
+  "en": {
+    "remove_button": "Remove element",
+    "add": "Add",
+    "no_results": "No results",
+    "clear_button": "Remove all selected options"
+  }
+}

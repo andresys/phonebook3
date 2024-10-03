@@ -2,7 +2,7 @@
 <% model_name = contact.model_name.singular %>
 
 <div class="flex flex-col gap-2 w-full">
-  <% (!model_params.blank? && model_params || [{name: nil, param_type: :phone, value: nil}]).each_with_index do |param,i| %>
+  <% (!model_params.blank? && model_params || [{name: nil, param_type: :phone, value: nil}]).each_with_index do |param, i| %>
     <%= hidden_field_tag "#{model_name}[params][][id]", param[:id], id: nil if param[:id] %>
     <%= hidden_field_tag "#{model_name}[params][][type]", param_type, id: nil %>
     <div class="flex gap-2">
