@@ -9,7 +9,7 @@
     </svg>
   </a>
   
-  <div class="hidden card min-w-[450px] absolute right-0 z-10 my-1 w-full origin-top-right" data-dropdown-target="menu">
+  <div class="hidden card min-w-[450px] absolute right-0 z-50 my-1 w-full origin-top-right" data-dropdown-target="menu">
     <div class="p-3 flex">
       <div class="mr-4">
         <%= image_tag current_user.contact.image(:small) || "user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: !!current_user.contact.image(:small) %>

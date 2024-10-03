@@ -15,7 +15,7 @@ module Settings
         },
         abbr_filter: {
           type: 'pattern_replace',
-          pattern: '((([A-zА-я0-9])[A-zА-я0-9]+)([^A-zА-я0-9]+!?)|[A-zА-я0-9]+[^A-zА-я0-9]+!?)', #'(((\S)\S+)( ?)|(\S+ ?))',
+          pattern: '((([A-zА-я0-9])[A-zА-я0-9]{2,})([^A-zА-я0-9]+!?|$)|[A-zА-я0-9]+([^A-zА-я0-9]!?|$))', #'(((\S)\S+)( ?)|(\S+ ?))',
           replacement: '$3',
         },
         phone_filter: {

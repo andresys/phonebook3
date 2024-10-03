@@ -22,6 +22,7 @@
 
 /public/assets
 /public/images
+!/public/images/*_user.png
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
