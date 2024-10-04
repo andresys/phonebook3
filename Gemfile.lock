@@ -115,7 +115,7 @@ GEM
       caxlsx (>= 3.0)
     childprocess (5.0.0)
     chunky_png (1.4.0)
-    climate_control (0.2.0)
+    climate_control (1.2.0)
     coderay (1.1.3)
     concurrent-ruby (1.3.1)
     connection_pool (2.4.1)
@@ -141,6 +141,7 @@ GEM
       elasticsearch-api (= 8.14.0)
     elasticsearch-api (8.14.0)
       multi_json
+    error_highlight (0.6.0)
     erubi (1.12.0)
     faraday (2.9.1)
       faraday-net_http (>= 2.0, < 3.2)
@@ -174,6 +175,12 @@ GEM
     jsbundling-rails (1.3.0)
       railties (>= 6.0.0)
     kgio (2.11.4)
+    kt-paperclip (7.2.2)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      marcel (~> 1.0.1)
+      mime-types
+      terrapin (>= 0.6.0, < 2.0)
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -194,12 +201,10 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     method_source (1.1.0)
-    mime-types (3.5.2)
+    mime-types (3.6.0)
+      logger
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0507)
-    mimemagic (0.3.10)
-      nokogiri (~> 1)
-      rake
+    mime-types-data (3.2024.1001)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
@@ -230,12 +235,6 @@ GEM
     options (2.3.2)
     orm_adapter (0.5.0)
     pagy (8.4.2)
-    paperclip (6.1.0)
-      activemodel (>= 4.2.0)
-      activesupport (>= 4.2.0)
-      mime-types
-      mimemagic (~> 0.3.0)
-      terrapin (~> 0.6.0)
     pg (1.5.7)
     phonelib (0.8.9)
     progress_bar (1.3.4)
@@ -357,8 +356,8 @@ GEM
     stringio (3.1.0)
     strscan (3.1.0)
     temple (0.10.3)
-    terrapin (0.6.0)
-      climate_control (>= 0.0.3, < 1.0)
+    terrapin (1.0.1)
+      climate_control
     thor (1.3.1)
     tilt (2.3.0)
     timeout (0.4.1)
@@ -415,16 +414,17 @@ DEPENDENCIES
   csv_builder
   devise (~> 4.9.3)
   elasticsearch
+  error_highlight (>= 0.4.0)
   friendly_id (~> 5.5.0)
   httparty (~> 0.22.0)
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   jsbundling-rails (~> 1.3)
+  kt-paperclip (~> 7.2.2)
   letter_opener (~> 1.8)
   listen (~> 3.3)
   mysql2 (>= 0.4.4, < 0.6.0)
   pagy (~> 8.2)
-  paperclip (~> 6.1.0)
   pg (~> 1.1)
   phonelib
   progress_bar

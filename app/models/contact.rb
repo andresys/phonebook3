@@ -15,10 +15,11 @@ class Contact < ApplicationRecord
 
   has_attached_file :image,
                     styles: { medium: "250x250#", small: "60x60#" },
-                    #default_url: ActionController::Base.helpers.asset_path("user.png"),
-                    default_url: "/:style_user.png",
+                    # default_url: ActionController::Base.helpers.asset_path("user.png"),
+                    default_url: "/assets/:style_user.png",
+                    # default_url: "user.png",
                     path: ":rails_root/public/images/contacts/:id/:style_:filename",
-                    url: "/contacts/:id/:style_:filename",
+                    url: "contacts/:id/:style_:filename",
                     processors: [:cropper]
   # has_one_attached :image do |attachable|
   #   attachable.variant :medium, :resize_to_fill => [250,250]

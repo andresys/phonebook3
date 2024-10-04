@@ -34,6 +34,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
+  gem 'error_highlight', '>= 0.4.0'
 end
 
 group :development do
@@ -65,7 +66,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'slim'
 
-gem 'paperclip', '~> 6.1.0'
+gem 'kt-paperclip', '~> 7.2.2'
 gem 'friendly_id', '~> 5.5.0'
 gem "devise", "~> 4.9.3"
 gem "rails-i18n", "~> 7.0"

@@ -90,7 +90,7 @@ namespace :phonebook do
         path = data['photo'].gsub(/small_/, 'original_')
         url = URI.parse("https://phonebook.adm.tver.ru#{path}")
         file_name = URI.decode_www_form_component(path.split('original_').last)
-        contact.image = URI.open(url)
+        contact.image = URI.open(url, http_basic_authentication: ["admin", "inf24!sp"])
         contact.image.instance_write(:file_name, file_name)
         # contact.image.attach(io: URI.open(url), filename: file_name)
       rescue OpenURI::HTTPError

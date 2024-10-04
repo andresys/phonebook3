@@ -13,6 +13,7 @@ module Settings::ContactSearch
           fields: {
             text: {
               type: 'text',
+              fielddata: true,
               analyzer: 'text_analyzer',
               search_analyzer: 'search_text_analyzer'
             }
@@ -23,6 +24,7 @@ module Settings::ContactSearch
           fields: {
             text: {
               type: 'text',
+              fielddata: true,
               analyzer: 'text_analyzer',
               search_analyzer: 'search_text_analyzer'
             }
@@ -33,6 +35,7 @@ module Settings::ContactSearch
           fields: {
             text: {
               type: 'text',
+              fielddata: true,
               analyzer: 'text_analyzer',
               search_analyzer: 'search_text_analyzer'
             }
