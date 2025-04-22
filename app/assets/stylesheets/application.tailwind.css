@@ -2,6 +2,7 @@
 @import "./phonebook.scss";
 @import "./treeview.scss";
 @import "./left_menu.scss";
+@import "./markdown.scss";
 @import "./account_menu.scss";
 @import "../../../node_modules/cropperjs/dist/cropper.css";
 @tailwind base;

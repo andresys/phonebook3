@@ -4,6 +4,7 @@ module Imports
 
     def self.config_file filename
       config = YAML.load_file(File.join('config', "#{filename}.yml"))[Rails.env]
+      return unless config
 
       base_uri config.delete('base_uri')
       basic_auth config.delete('username'), config.delete('password')

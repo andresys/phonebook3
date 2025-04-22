@@ -12,14 +12,14 @@
   <div class="hidden card min-w-[450px] absolute right-0 z-50 my-1 w-full origin-top-right" data-dropdown-target="menu">
     <div class="p-3 flex">
       <div class="mr-4">
-        <%= image_tag current_user.contact.image(:small) || "user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: !!current_user.contact.image(:small) %>
+        <%= image_tag current_user.contact&.image(:small) || "small_user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: !!current_user.contact&.image(:small) %>
         <%#= image_tag current_user.contact.image.attached? ? current_user.contact.image.variant(:small) : "small_user.png", class: "border p-1 rounded max-w-full h-auto", skip_pipeline: true %>
       </div>
       <div>
         <%= tag.h6 current_user.contact, class: "font-medium mb-2" %>
         <span class="text-sm font-light">
-          <%= tag.p current_user.contact.title %>
-          <%= tag.p current_user.contact.department %>
+          <%= tag.p current_user.contact&.title %>
+          <%= tag.p current_user.contact&.department %>
         </span>
       </div>
     </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="p-3 rounded-b-md bg-gray-100 flex gap-2 justify-between items-baseline text-sm">
       <%= link_to 'Изменить пароль', edit_registration_path(:user), class: "link" %>
-      <%= link_to 'Выход', destroy_session_path(:user), data: { turbo_method: 'delete' }, class: "btn btn-sm", role: "button" %>
+      <%= button_to 'Выход', destroy_session_path(:user), method: :delete, class: "btn btn-sm", role: "button" %>
     </div>
   </div>
 </div>

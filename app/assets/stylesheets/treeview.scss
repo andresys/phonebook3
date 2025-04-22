@@ -4,7 +4,7 @@
   }
 
   li>div {
-    @apply relative align-top rounded-3xl px-4 py-3 has-[:checked]:bg-pb-50 hover:!bg-pb-100;
+    @apply relative z-10 align-top rounded-3xl px-4 py-3 has-[:checked]:bg-pb-50 hover:!bg-pb-100;
   }
 
   ul li {

@@ -8,9 +8,9 @@
 <% end %>
 
 <%= fields_for :departments do |f| %>
-  <div class="treeview mb-4" data-controller="nested-sortable" data-nested-sortable-handle-value=".handle">
-    <%= nested_list Department do |dep| %>
-      <div class="group flex items-center gap-1 select-none">
+  <div class="treeview mb-4" data-controller="nested-sortable" data-nested-sortable-handle-value=".handle" data-nested-sortable-resource-name-value="department">
+    <%= nested_list Department, item_options: { 'data-sortable-update-url': lambda {|dep| admin_department_path(dep) } }  do |dep| %>
+      <%= tag.div class: "group flex items-center gap-1 select-none" do %>
         <%#= bs_icon 'dash-square' %>
         <%#= f.check_box :id, class: "mr-2 align-middle" %>
         <%= tag.span class: "click hover:text-gray-950" do %>
@@ -27,7 +27,7 @@
         <%= link_to [:edit, :admin, dep], class: "hidden group-hover:block text-pb-400 hover:text-pb-600" do %>
           <%= bs_icon 'pencil-square' %>
         <% end %>
-      </div>
+      <% end %>
     <% end %>
   </div>
 <% end %>

@@ -1,0 +1,57 @@
+services:
+  app:
+    image: phonebook3 
+    restart: always
+    depends_on:
+      - db
+      - opensearch
+      - redis
+    environment:
+      RAILS_MASTER_KEY: 1fb6ab386ee7e316edc5acf4e5994693
+      HOST: 10.10.2.250
+      RAILS_SERVE_STATIC_FILES: false
+      OPENSEARCH_URL: http://opensearch:9200
+      OPENSEARCH_USER: admin
+      OPENSEARCH_PASSWORD: SDe23@tue
+      REDIS_URL: redis
+      DB_HOST: db
+      DB_NAME: phonebook3
+      DB_USERNAME: phonebook3
+      DB_PASSWORD: 12345678
+    volumes:
+      - ./log:/rails/log
+      - ./storage:/rails/storage
+    ports:
+      - "80:80"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: phonebook3
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: phonebook3
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g
+      - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=SDe23@tue
+  
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on: 
+      - db
+    ports:
+      - 8080:8080

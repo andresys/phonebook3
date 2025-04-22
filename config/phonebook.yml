@@ -7,3 +7,8 @@ test:
   base_uri: https://phonebook.adm.tver.ru
   username: admin
   password: inf24!sp
+
+production:
+  base_uri: https://phonebook.adm.tver.ru
+  username: admin
+  password: inf24!sp

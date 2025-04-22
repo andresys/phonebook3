@@ -37,13 +37,9 @@
 </div>
 
 <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-8 items-baseline">
-  <%= f.label :location, "Адрес контакта:", class: "font-medium min-w-64" %>
-  <div class="grid grid-cols-5 gap-2 grow">
-    <%= f.select :location, Address.all_locations, { include_blank: true }, placeholder: "Населенный пункт", class: "form-input col-span-3", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-    <%= f.select :zip, Address.all_zips, { include_blank: true }, placeholder: "Индекс", class: "form-input col-span-2", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-    <%= f.select :street, Address.all_streets, { include_blank: true }, placeholder: "Улица", class: "form-input col-span-3", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-    <%= f.select :house, Address.all_houses, { include_blank: true }, placeholder: "Здание", class: "form-input", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-    <%= f.select :room, Address.all_rooms, { include_blank: true }, placeholder: "Офис", class: "form-input", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+  <%= f.label :address, "Адрес контакта:", class: "font-medium min-w-64" %>
+  <div class="grid gap-2 grow">
+    <%= f.text_area :address, class: "form-input min-h-24", data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: "500" } %>
     <%#= f.select :chief_id, Contact.all.collect {|contact| [ contact, contact.id ] }, { include_blank: true }, class: "form-input grow" %>
   </div>
 </div>

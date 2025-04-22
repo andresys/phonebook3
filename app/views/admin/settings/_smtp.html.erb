@@ -1,0 +1,29 @@
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :mailer_sender, "Email отправителя:", class: "font-medium min-w-64" %>
+  <%= form.text_field :mailer_sender, class: "form-input grow", placeholder: "phonebook@mailserver.ru" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :address, "SMTP сервер:", class: "font-medium min-w-64" %>
+  <%= form.text_field :address, class: "form-input grow", placeholder: "smtp.mailserver.ru" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :port, "Порт SMTP:", class: "font-medium min-w-64" %>
+  <%= form.number_field :port, class: "form-input grow", placeholder: "587" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :enable_starttls, "Использовать Star TLS:", class: "font-medium min-w-64" %>
+  <%= form.check_box :enable_starttls, {}, 'true', 'false' %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :user_name, "Имя пользователя:", class: "font-medium min-w-64" %>
+  <%= form.text_field :user_name, class: "form-input grow", placeholder: "ivanov@mailserver.ru" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :password, "Пароль:", class: "font-medium min-w-64" %>
+  <%= form.password_field :password, value: form.object.password, class: "form-input grow" %>
+</div>

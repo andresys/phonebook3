@@ -2,6 +2,8 @@ class Contact < ApplicationRecord
   include Settings::ContactSearch
   include Slugged
 
+  before_save :destroy_image?
+
   def initialize(args = {})
     args ||= {}
     args[:params] = init_params(args[:params]) if args[:params]
@@ -15,10 +17,10 @@ class Contact < ApplicationRecord
 
   has_attached_file :image,
                     styles: { medium: "250x250#", small: "60x60#" },
-                    #default_url: ActionController::Base.helpers.asset_path("user.png"),
-                    default_url: "/:style_user.png",
+                    # default_url: ActionController::Base.helpers.asset_path("user.png"),
+                    default_url: "/assets/:style_user.png",
                     path: ":rails_root/public/images/contacts/:id/:style_:filename",
-                    url: "/contacts/:id/:style_:filename",
+                    url: "/images/contacts/:id/:style_:filename",
                     processors: [:cropper]
   # has_one_attached :image do |attachable|
   #   attachable.variant :medium, :resize_to_fill => [250,250]
@@ -30,12 +32,10 @@ class Contact < ApplicationRecord
   # validates :image, presence: false, blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg'], size_range: 0..(10.megabytes) }
   validates :lastname, :firstname, presence: true
 
-  attr_accessor :location, :zip, :street, :house, :room
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :delete_image
+  attr_accessor :delete_image
 
   belongs_to :department
   belongs_to :title
-  belongs_to :address, optional: true
   has_one :user
   has_many :params, as: :paramable
   has_one :chief_of_department, class_name: "Department", foreign_key: :chief_id
@@ -76,35 +76,6 @@ class Contact < ApplicationRecord
 
 private
 
-  before_save do |c|
-    if self.location && self.zip && self.street && self.house && self.room
-      ap = { location: self.location, zip: self.zip, street: self.street, house: self.house, room: self.room }
-      a = Address.find_or_initialize_by(ap)
-      if a.new_record? && self.address && self.address.contacts.count + self.address.departments.count == 1
-        self.address.update(ap)
-      else
-        a.save
-        self.address = a
-      end
-    end
-  end
-
-  # after_save do |c|
-  #   SearchIndex.transaction do
-  #     c.reindex
-  #   end
-  # end
-
-  after_initialize do |c|
-    unless c.new_record?
-      c.location = c.address && c.address.location
-      c.zip = c.address && c.address.zip
-      c.street = c.address && c.address.street
-      c.house = c.address && c.address.house
-      c.room = c.address && c.address.room
-    end
-  end
-
   def init_params(params)
     if params #&& params.is_a? Param
       ret = []
@@ -117,5 +88,9 @@ private
       end
     end
     ret || params
+  end
+
+  def destroy_image?
+    self.image.clear if @delete_image == "1"
   end
 end

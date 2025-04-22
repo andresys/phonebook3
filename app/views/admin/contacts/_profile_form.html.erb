@@ -15,24 +15,12 @@
   </div>
 
   <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-    <%= f.label :parent_id, "Подразделение:", class: "font-medium min-w-64" %>
-    <div class="flex flex-1 flex-col gap-2">
-      <% @contact.department && @contact.department.self_and_ancestors.each_with_index do |d, i| %>
-        <%= select_tag "contact[deps][#{i}]", options_for_select(d.self_and_siblings.collect {|dep| [ dep, dep.id ] }, d.id), include_blank: true, id: "contact_deps_#{i}", placeholder: "Наименование подразделения", class: "form-input grow", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-      <% end %>
-      <% deps = @contact.department && @contact.department.children.any? && @contact.department.children || @contact.department && [] || Department.roots %>
-      <% level = @contact.department && @contact.department.level || 0 %>
-      <% if deps.any? %>
-        <%= select_tag "contact[deps][#{level+1}]", options_for_select(deps.collect {|dep| [ dep, dep.id ] }), include_blank: true, id: "contact_deps_#{level+1}", class: "form-input grow", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-      <% else %>
-        <%#= text_field_tag "contact[deps][#{level + 1}]", nil, class: "form-input grow", placeholder: "Наименование подразделения" %>
-        <%= select_tag "contact[deps][#{level+1}]", nil, include_blank: true, id: "contact_deps_#{level+1}", class: "form-input grow", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
-      <% end %>
-    </div>
+    <%= f.label :department_id, "Подразделение:", class: "font-medium min-w-64" %>
+    <%= f.select :department_id, Department.all.collect {|dep| [ dep, dep.id ] }, { }, placeholder: "Наименование подразделения", class: "form-input grow", data: { controller: "tom-select" } %>
   </div>
 
   <div class="flex flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-    <%= f.label :name, "Должность:", class: "font-medium min-w-64" %>
-    <%= f.select :title_id, Title.all.collect {|title| [ title, title.id ] }, { }, placeholder: "Наименование должности", class: "form-input grow", data: { controller: "tom-select", tom_select_options_value: "{\"create\":true}" } %>
+    <%= f.label :title_id, "Должность:", class: "font-medium min-w-64" %>
+    <%= f.select :title_id, Title.all.collect {|title| [ title, title.id ] }, { }, placeholder: "Наименование должности", class: "form-input grow", data: { controller: "tom-select" } %>
   </div>
 </div>

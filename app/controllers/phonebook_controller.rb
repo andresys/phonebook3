@@ -3,7 +3,7 @@ class PhonebookController < ApplicationController
     @results = Searchkick.search(body: {
       query: {
         multi_match: {
-          query: query,
+          query: query || '*',
           fields: [
             'firstname.text',
             'lastname.text',
@@ -22,13 +22,13 @@ class PhonebookController < ApplicationController
     )
 
     unless is_item = @results.hits.count == 1
-      @results = Contact.sk_search(query)
+      @results = Contact.sk_search(query || '*')
       @pagy, @results = pagy_searchkick @results
     end
     
     respond_to do |format|
       format.html {
-        redirect_to [@results.first] if is_item || @pagy.count == 1
+        redirect_to [@results.first] if is_item || (@pagy.count == 1 && query)
       }
       format.turbo_stream
     end
@@ -61,6 +61,6 @@ class PhonebookController < ApplicationController
 
   def query
     q = params[:q].to_s.strip
-    !q.empty? && q || '*'
+    !q.empty? && q || nil
   end
 end

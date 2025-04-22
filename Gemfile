@@ -6,9 +6,9 @@ ruby '3.1.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.1.3.2'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5.6'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.4.4', '< 0.6.0'
+# gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
 gem 'puma', '~> 6.4.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -29,11 +29,15 @@ gem "cssbundling-rails", "~> 1.4"
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'turbo-rails', '~> 2.0.5'
+gem 'dotenv'
+gem 'slim'
+gem 'progress_bar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
+  gem 'pry-remote'
 end
 
 group :development do
@@ -45,7 +49,6 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
-  gem 'progress_bar'
   gem "letter_opener", "~> 1.8"
 end
 
@@ -58,14 +61,15 @@ group :test do
 end
 
 group :production do
-  gem 'unicorn'
+  # gem 'unicorn'
+  gem 'thruster'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'slim'
 
-gem 'paperclip', '~> 6.1.0'
+# gem 'paperclip', '~> 6.1.0'
+gem "kt-paperclip", "~> 6.4", ">= 6.4.1"
 gem 'friendly_id', '~> 5.5.0'
 gem "devise", "~> 4.9.3"
 gem "rails-i18n", "~> 7.0"
@@ -91,7 +95,9 @@ gem "stimulus-rails", "~> 1.3"
 gem "pagy", "~> 8.2"
 
 gem "searchkick"
-gem "elasticsearch"
+# gem "elasticsearch"
+gem "opensearch-ruby"
+gem 'faraday', '~> 2.12', '>= 2.12.1'
 
 gem "rubyzip", "~> 2.3"
 gem "caxlsx", "~> 4.1"

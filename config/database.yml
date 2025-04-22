@@ -7,10 +7,13 @@ development:
   <<: *default
   database: phonebook_dev
 
-test:
-  <<: *default
-  database: phonebook_dev
-
 production:
   <<: *default
-  database: phonebook
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT' || '5432'] %>
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: <%= ENV['DB_POOL_SIZE'] || '9' %>
+  connect_timeout: <%= ENV['DB_CONNECT_TIMEOUT'] || '5' %>
+  read_timeout: <%= ENV['DB_READ_TIMEOUT'] || '120' %>

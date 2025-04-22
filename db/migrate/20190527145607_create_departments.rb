@@ -3,6 +3,9 @@ class CreateDepartments < ActiveRecord::Migration[5.2]
     create_table :departments do |t|
       t.string :name,   :null => false
 
+      t.text :address
+      t.integer :chief_id, :null => true
+
       t.string :format
 
       t.integer :parent_id, :null => true, :index => true

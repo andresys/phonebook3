@@ -1,0 +1,1 @@
+REDIS = Redis.new(host: ENV["REDIS_URL"] || "localhost", port: ENV["REDIS_PORT"].to_i || 6379)

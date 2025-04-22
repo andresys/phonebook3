@@ -12,7 +12,7 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
-  config.web_console.permissions = '172.30.128.0/24'
+  config.web_console.permissions = '10.10.12.0/24'
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -58,15 +58,15 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
    
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => "10.10.2.250:3000" }
-  config.action_mailer.smtp_settings = {
-    :address              => "adm.tver.ru",
-    :port                 => 587,
-    :user_name            => "phonebook@adm.tver.ru",
-    :password             => "c4z01",
-    :authentication       => "plain",
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.default_url_options = { :host => "10.10.2.250:3000" }
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "adm.tver.ru",
+  #   :port                 => 587,
+  #   :user_name            => "phonebook@adm.tver.ru",
+  #   :password             => "c4z01",
+  #   :authentication       => "plain",
+  #   :enable_starttls_auto => true
+  # }
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.

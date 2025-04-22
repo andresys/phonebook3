@@ -2,65 +2,16 @@
 
 <%= page_title "Глобальные настройки" %>
 
-<%= form_with url: [:admin, :settings], method: "PUT" do |f| %>
-  <div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-    <%= f.label :title, "Наименование справочника:", class: "font-medium min-w-64" %>
-    <%= f.text_field :title, class: "form-input grow", placeholder: "Наименование для телефонного справочника" %>
-  </div>
+<%= form_with model: Setting.new, url: [:admin, :settings], method: :patch do |f| %>
+  <%#= render "shared/errors", errors: @errors %>
 
-  <div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
-    <%= f.label :default_page, "Контакты по умолчанию:", class: "font-medium min-w-64" %>
-    <% options = {contacts: "Все контакты", favorites: "Избранные", sessions: "Запоминать"} %>
-    <%= f.select :default_page, options.invert, {}, class: "form-input grow", data: { controller: "tom-select" } %>
-  </div>
+  <%= render "general", form: f %>
+  <hr class="my-8" />
+  <%= render "smtp", form: f %>
+  <hr class="my-8" />
+  <%= render "asterisk", form: f %>
 
-  <div class="flex gap-2 justify-center items-baseline">
+  <div class="flex gap-2 justify-center items-baseline mb-4">
     <%= f.button "Сохранить", class: "btn-primary" %>
   </div>
 <% end %>
-
-
-<%# = f.fields_for :asterisk, @settings[:asterisk] do |f|
-      .form-group.mt-5.row
-        .col-sm-12
-          .form-check.form-check-inline
-            = f.check_box :enable, class: "form-check-input"
-            = f.label :enable, "Включить интеграцию с Asterisk:", class: "form-check-label ml-2"
-      .form-group.row
-        = f.label :host, "Адрес сервера Asterisk:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          = f.text_field :host, class: "form-control"
-      .form-group.row
-        = f.label :username, "Имя пользователя:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          = f.text_field :username, class: "form-control"
-      .form-group.row
-        = f.label :password, "Пароль:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          = f.text_field :password, class: "form-control"
-      .form-group.row
-        = f.label :number_type, "Тип номера для Asterisk:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          - default_types = ['рабочий', 'мобильный', 'домашний', @settings[:asterisk] && @settings[:asterisk][:number_type]].compact.uniq
-          = f.select :number_type, Param.send("all_phone_types", default_types), {}, class: "form-control", data: {role: "select2", tags: true}
-
-    = f.fields_for :autosort, @settings[:autosort] do |f|
-      .form-group.mt-5.row
-        .col-sm-12
-          .form-check.form-check-inline
-            = f.check_box :title, class: "form-check-input"
-            = f.label :title, "Включить автоматическую сортировку должностей при их создании:", class: "form-check-label ml-2"
-      .form-group.row
-        = f.label :title_rules, "Правила сортировки должностей:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          = f.text_area :title_rules, value: @settings[:autosort] && @settings[:autosort][:title_rules] && @settings[:autosort][:title_rules].join("\n"), rows: 10, class: "form-control", as: :array
-
-      .form-group.mt-5.row
-        .col-sm-12
-          .form-check.form-check-inline
-            = f.check_box :department, class: "form-check-input"
-            = f.label :department, "Включить автоматическую сортировку подразделений при их создании:", class: "form-check-label ml-2"
-      .form-group.row
-        = f.label :department_rules, "Правила сортировки подразделений:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
-        .col-sm-6
-          = f.text_area :department_rules, value: @settings[:autosort] && @settings[:autosort][:department_rules] && @settings[:autosort][:department_rules].join("\n"), rows: 10, class: "form-control", as: :array %>

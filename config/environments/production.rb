@@ -16,14 +16,14 @@ Rails.application.configure do
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
+  config.require_master_key = false
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -90,18 +90,21 @@ Rails.application.configure do
   end
 
   config.action_mailer.delivery_method = :smtp
-  host = 'phonebook.adm.tver.ru' #replace with your own url
-  config.action_mailer.default_url_options = { host: host }
+  # host = 'phonebook.adm.tver.ru' #replace with your own url
+  config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
   # SMTP settings for gmail
-  config.action_mailer.smtp_settings = {
-    :address              => "adm.tver.ru",
-    :port                 => 587,
-    :user_name            => "phonebook@adm.tver.ru",
-    :password             => "c4z01",
-    :authentication       => "plain",
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address:         'mail.adm.tver.ru',
+  #   port:            587,
+  #   domain:          'adm.tver.ru',
+  #   user_name:       'phonebook@adm.tver.ru',
+  #   password:        '75,NnEYm,&',
+  #   authentication:  'plain',
+  #   enable_starttls: true,
+  #   open_timeout:    5,
+  #   read_timeout:    5
+  # }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

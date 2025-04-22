@@ -13,7 +13,7 @@ class Admin::ContactsController < AdminController
       ],
       query: {
         multi_match: {
-          query: query,
+          query: query || '*',
           type: "cross_fields",
           operator: "and",
           zero_terms_query: "all"
@@ -24,7 +24,7 @@ class Admin::ContactsController < AdminController
 
     respond_to do |format|
       format.html {
-        redirect_to [:admin, @contacts.first] if @pagy.count == 1
+        redirect_to [:admin, @contacts.first] if @pagy.count == 1 && query
       }
       format.turbo_stream
     end
@@ -65,7 +65,7 @@ class Admin::ContactsController < AdminController
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-      #   @contact.image.reprocess! if @contact.cropping?
+        @contact.image.reprocess! if @contact.cropping?
         format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully updated.' }
       else
         format.html { render :edit }
@@ -90,29 +90,15 @@ class Admin::ContactsController < AdminController
 
     def query
       q = params[:q].to_s.strip
-      !q.empty? && q || '*'
+      !q.empty? && q || nil
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def contact_params
-      contact = params.require(:contact)
-      
-      contact[:department_id] = contact[:deps].values.reject { |d| d.empty? }.reduce([]) do |deps, d|
-        deps << Department.find_or_create_by(id: d) do |dep|
-          dep.id = nil
-          dep.name = d
-          dep.parent_id = deps.last.id
-        end
-      end.last.id if contact[:deps]
-      
-      contact[:title_id].strip!
-      contact[:title_id] = (Title.where("id = ? or name = ?", contact[:title_id], contact[:title_id]).first || Title.create(name: contact[:title_id])).id
-      
-      contact.permit(:lastname, :firstname, :middlename, :department_id, :title_id, :address_id, :location, :zip, :street, :house, :room, :image, :crop_x, :crop_y, :crop_w, :crop_h, :delete_image, params: [:id, :name, :value, :type])
       params.require(:contact).permit(:lastname, :firstname, :middlename,
-        :location, :zip, :street, :house, :room,
+        :department_id, :title_id, :address,
+        :image, :crop_x, :crop_y, :crop_w, :crop_h, :delete_image,
         params_attributes: [:id, :name, :value, :param_type, :_destroy]
       )
-      # params.require(:contact).permit(:lastname, :firstname, :middlename)
     end
 end

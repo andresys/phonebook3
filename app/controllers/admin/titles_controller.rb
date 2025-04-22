@@ -42,8 +42,8 @@ class Admin::TitlesController < AdminController
   def update
     respond_to do |format|
       if @title.update(title_params)
-        format.html { redirect_to admin_titles_path, notice: 'Title was successfully updated.' }
-        format.json { render :show, status: :ok, location: @title }
+        format.html { request.xhr? ? head(:no_content) : redirect_to(admin_titles_path, notice: 'Title was successfully updated.') }
+        format.json { render :show, status: :ok, location: admin_title_path(@title) }
       else
         format.html { render :edit }
         format.json { render json: @title.errors, status: :unprocessable_entity }
@@ -69,6 +69,6 @@ class Admin::TitlesController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def title_params
-      params.require(:title).permit(:name)
+      params.require(:title).permit(:name, :position)
     end
 end

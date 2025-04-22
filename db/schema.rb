@@ -42,28 +42,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_055352) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "addresses", force: :cascade do |t|
-    t.string "zip", limit: 6, null: false
-    t.string "location", limit: 30, null: false
-    t.string "street", limit: 50, null: false
-    t.string "house", limit: 5, null: false
-    t.string "room", limit: 5, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["zip", "location", "street", "house", "room"], name: "address_index", unique: true
-  end
-
   create_table "contacts", force: :cascade do |t|
     t.string "firstname", null: false
     t.string "lastname", null: false
     t.string "middlename"
     t.integer "department_id", null: false
     t.integer "title_id", null: false
-    t.integer "address_id"
+    t.text "address"
     t.string "image_file_name"
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at", precision: nil
+    t.integer "crop_x"
+    t.integer "crop_y"
+    t.integer "crop_w"
+    t.integer "crop_h"
     t.string "slug"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -76,6 +69,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_055352) do
 
   create_table "departments", force: :cascade do |t|
     t.string "name", null: false
+    t.text "address"
+    t.integer "chief_id"
     t.string "format"
     t.integer "parent_id"
     t.integer "lft", null: false
@@ -85,8 +80,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_055352) do
     t.string "slug"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "address_id"
-    t.integer "chief_id"
     t.index ["lft"], name: "index_departments_on_lft"
     t.index ["parent_id"], name: "index_departments_on_parent_id"
     t.index ["rgt"], name: "index_departments_on_rgt"

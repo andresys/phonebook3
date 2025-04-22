@@ -8,10 +8,10 @@
 <% end %>
 
 <%= fields_for :title do |f| %>
-  <div class="treeview mb-4" data-controller="nested-sortable" data-nested-sortable-handle-value=".handle">
+  <div class="treeview mb-4" data-controller="nested-sortable" data-nested-sortable-handle-value=".handle" data-nested-sortable-resource-name-value="title">
     <ul>
       <% @titles.each do |title| %>
-        <li>
+        <%= tag.li data: { sortable_update_url: admin_title_path(title) } do %>
           <div class="group flex items-center gap-1 select-none">
             <%#= bs_icon 'dash-square' %>
             <%= f.check_box title.id, class: "mr-2" %>
@@ -30,7 +30,7 @@
               <%= bs_icon 'pencil-square' %>
             <% end %>
           </div>
-        </li>
+        <% end %>
       <% end %>
     </ul>
   </div>

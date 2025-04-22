@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     resources :departments, except: %i[show], path_names: { edit: '' }
     resources :titles, except: %i[show], path_names: { edit: '' }
     resource :help
-    resource :settings
+    resource :settings, only: %i[show update]
   end
 
   namespace :profile do
@@ -45,7 +45,8 @@ Rails.application.routes.draw do
 
   resources :exports, only: %i[index new create show]
   delete '/exports', to: 'exports#destroy_all'
-  resource :settings
+  # resource :settings
+  resource :helps, only: %i[show]
 
   resources :contacts, only: %i[show], path: '', constraints: lambda {|request| Contact.find_by_slug request.params[:id]}
   resources :departments, only: %i[show], path: '', constraints: lambda {|request| Department.find_by_slug request.params[:id]}

@@ -1,0 +1,45 @@
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :enable_asterisk, "Включить интеграцию с Asterisk:", class: "font-medium min-w-64" %>
+  <%= form.check_box :enable_asterisk, {}, 'true', 'false' %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :asterisk_number_type, "Тип номера для Asterisk:", class: "font-medium min-w-64" %>
+  <%= form.select :asterisk_number_type, Param.send("all_phone_types"), {}, class: "form-input grow" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :asterisk_server, "Адрес сервера Asterisk:", class: "font-medium min-w-64" %>
+  <%= form.text_field :asterisk_server, class: "form-input grow", placeholder: "192.168.1.10" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :asterisk_user, "Имя пользователя:", class: "font-medium min-w-64" %>
+  <%= form.text_field :asterisk_user, class: "form-input grow", placeholder: "admin" %>
+</div>
+
+<div class="flex flex-1 flex-wrap lg:flex-nowrap gap-2 mb-4 items-baseline">
+  <%= form.label :asterisk_password, "Пароль:", class: "font-medium min-w-64" %>
+  <%= form.password_field :asterisk_password, value: form.object.asterisk_password, class: "form-input grow" %>
+</div>
+
+    <%# = f.fields_for :autosort, @settings[:autosort] do |f|
+      .form-group.mt-5.row
+        .col-sm-12
+          .form-check.form-check-inline
+            = f.check_box :title, class: "form-check-input"
+            = f.label :title, "Включить автоматическую сортировку должностей при их создании:", class: "form-check-label ml-2"
+      .form-group.row
+        = f.label :title_rules, "Правила сортировки должностей:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
+        .col-sm-6
+          = f.text_area :title_rules, value: @settings[:autosort] && @settings[:autosort][:title_rules] && @settings[:autosort][:title_rules].join("\n"), rows: 10, class: "form-control", as: :array
+
+      .form-group.mt-5.row
+        .col-sm-12
+          .form-check.form-check-inline
+            = f.check_box :department, class: "form-check-input"
+            = f.label :department, "Включить автоматическую сортировку подразделений при их создании:", class: "form-check-label ml-2"
+      .form-group.row
+        = f.label :department_rules, "Правила сортировки подразделений:", class: "offset-lg-1 col-lg-5 col-sm-6 col-form-label"
+        .col-sm-6
+          = f.text_area :department_rules, value: @settings[:autosort] && @settings[:autosort][:department_rules] && @settings[:autosort][:department_rules].join("\n"), rows: 10, class: "form-control", as: :array %>

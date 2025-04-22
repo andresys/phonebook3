@@ -17,12 +17,9 @@ class Department < ApplicationRecord
   
   acts_as_nested_set
 
-  attr_accessor :location, :zip, :street, :house, :room
-
   has_many :contacts #, :include => :title, :order => ['titles.position', 'lastname']
   has_many :params, as: :paramable
   belongs_to :chief, class_name: "Contact", optional: true
-  belongs_to :address, optional: true
 
   accepts_nested_attributes_for :params, reject_if: :all_blank, allow_destroy: true
 
@@ -53,35 +50,6 @@ class Department < ApplicationRecord
   default_scope { order(lft: :asc) }
 
 private
-
-  before_save do |d|
-    if self.location && self.zip && self.street && self.house && self.room
-      ap = { location: self.location, zip: self.zip, street: self.street, house: self.house, room: self.room }
-      a = Address.find_or_initialize_by(ap)
-      if a.new_record? && self.address && self.address.contacts.count + self.address.departments.count == 1
-        self.address.update(ap)
-      else
-        a.save
-        self.address = a
-      end
-    end
-  end
-
-  after_save do |d|
-    #SearchIndex.transaction do
-    #  Contact.where(department_id: d.self_and_descendants.map(&:id)).map(&:reindex)
-    #end
-  end
-
-  after_initialize do |d|
-    unless d.new_record?
-      d.location = d.address && d.address.location
-      d.zip = d.address && d.address.zip
-      d.street = d.address && d.address.street
-      d.house = d.address && d.address.house
-      d.room = d.address && d.address.room
-    end
-  end
 
   def init_params(params)
     if params #&& params.is_a? Param

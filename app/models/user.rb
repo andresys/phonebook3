@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   attr_accessor :rolify, :rolify_access
 
+  after_create :confirm, if: Proc.new { User.count == 1 }
   after_create :assign_default_role_and_contact
 
   def rolify

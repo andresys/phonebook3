@@ -23,6 +23,10 @@
     @apply focus:shadow-[0_0_0_0.25rem] focus:shadow-pb-300/50 transition ease-in-out duration-500;
   }
 
+  input[type="checkbox"] {
+    @apply w-4 h-4;
+  }
+
   [role="button"] {
     @apply link-no-decorate;
   }
